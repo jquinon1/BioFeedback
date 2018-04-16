@@ -1,0 +1,65 @@
+<% include header %>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="my-4"><%- title %><small></small></h1>
+    <form action="<%- baseUrl %>videos/edit" method="post" class="form-horizontal">
+      <div class="form-group row">
+        <input type="text" name="idVideo" value="<%- video._id %>" hidden >
+        <label for="title" class="control-label col-lg-1 col-sm-2">Title:</label>
+        <div class="col-lg-7 col-sm-10">
+          <input type="text" name="title" id="title" class="form-control" value="<%- video.title %>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="control-label col-lg-1 col-sm-2">Description:</label>
+        <div class="col-lg-7 col-sm-10">
+          <input type="text" name="description" id="description" class="form-control" value="<%- video.description %>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="category" class="control-label col-lg-1 col-sm-2">Category:</label>
+        <div class="col-lg-7 col-sm-10">
+          <input type="text" name="category" id="category" class="form-control" value="<%- video.category %>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="privacy" class="control-label col-lg-1 col-sm-2">Privacy:</label>
+        <div class="col-lg-7 col-sm-10">
+          <select name="privacy" class="form-control" id="privacy">
+            <option value="Public">Public</option>
+            <option value="Private">Private</option>
+            <option value="Shared">Shared</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="tags" class="control-label col-lg-1 col-sm-2">Tags:</label>
+        <div class="col-lg-7 col-sm-10">
+          <input type="text" name="tags" id="tags" class="form-control" value="<%- video.tags %>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <button class="col-lg-2 col-md-4 col-sm-6 btn btn-primary">Update</button>
+      </div>
+
+    </form>
+
+    <p>Shared With</p>
+
+    <span>
+      <% video.users.forEach(function (user) { %>
+      <%- user.username %><br>
+
+      <% }); %>
+      <button class="btn btn-primary"><a style="color: white; text-decoration: none;" href="<%- baseUrl %>videos/me/share?id=<%- video._id %>">Share</a></button>
+    </span>
+
+
+</div>
+<!-- /.container -->
+
+<% include footer %>
+

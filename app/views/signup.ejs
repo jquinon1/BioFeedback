@@ -1,0 +1,47 @@
+<% include headerNA %>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="my-4"><%- title %><small></small></h1>
+
+  <form action="<%- baseUrl %>signup" method="post" class="form-horizontal">
+    <div class="form-group row">
+      <label for="name" class="control-label col-lg-1 col-sm-2">Name:</label>
+      <div class="col-lg-5 col-sm-10">
+        <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name...">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="lastname" class="control-label col-lg-1 col-sm-2">Lastname:</label>
+      <div class="col-lg-5 col-sm-10">
+        <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter your lastname...">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="username" class="control-label col-lg-1 col-sm-2">Username:</label>
+      <div class="col-lg-5 col-sm-10">
+        <input type="text" name="username" id="username" class="form-control" placeholder="Enter username...">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="password" class="control-label col-lg-1 col-sm-2">Password:</label>
+      <div class="col-lg-5 col-sm-10">
+        <input type="password" name="password" id="password" class="form-control" placeholder="Enter password...">
+      </div>
+    </div>
+    <div class="form-group row">
+      <button class="col-lg-2 col-md-4 col-sm-6 btn btn-primary">Sign Up</button>
+    </div>
+
+  </form>
+
+
+</div>
+<!-- /.container -->
+
+<% include footer %>

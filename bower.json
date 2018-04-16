@@ -1,0 +1,9 @@
+{
+  "name": "st0263-proyecto1-vquinte3",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
