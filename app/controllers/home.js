@@ -10,9 +10,28 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
-router.get('/', function (req, res, next) {
+/*router.get('/', function (req, res, next) {
   res.redirect(config.baseUrl + 'videos');
+});*/
+
+router.get('/', function (req, res, next) {
+    res.render('index');
 });
+
+router.get('/profile', function (req, res, next) {
+    res.render('profile');
+});
+
+
+router.get('/tables', function (req, res, next) {
+    res.render('tables');
+});
+
+router.get('/map', function (req, res, next) {
+    res.render('map');
+});
+
+
 
 router.get('/unauthorized', function (req, res, next) {
   res.status(401).send('You are not authorized to access this page');
