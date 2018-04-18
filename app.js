@@ -5,7 +5,7 @@ var express = require('express'),
   glob = require('glob'),
   mongoose = require('mongoose');
 
-var passport = require('passport')
+var passport = require('passport');
 
 
 mongoose.connect(config.db);
