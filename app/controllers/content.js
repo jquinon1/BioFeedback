@@ -1,7 +1,6 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
-  Video = mongoose.model('Video'),
   User = mongoose.model('User');
 
 var path = require('path');

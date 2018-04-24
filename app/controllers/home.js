@@ -1,7 +1,6 @@
 var express = require('express'),
   router = express.Router(),
-  mongoose = require('mongoose'),
-  Article = mongoose.model('Article');
+  mongoose = require('mongoose');
 
 
 var config = require('../../config/config');
@@ -18,10 +17,17 @@ router.get('/', function (req, res, next) {
     res.render('index');
 });
 
-router.get('/profile', function (req, res, next) {
-    res.render('profile');
+router.get('/perfil', function (req, res, next) {
+    res.render('perfil');
 });
 
+router.get('/conductor', function (req, res, next) {
+    res.render('conductor');
+});
+
+router.get('/reportes', function (req, res, next) {
+    res.render('reportes');
+});
 
 router.get('/tables', function (req, res, next) {
     res.render('tables');
