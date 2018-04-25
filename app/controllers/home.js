@@ -14,7 +14,20 @@ module.exports = function (app) {
 });*/
 
 router.get('/', function (req, res, next) {
-    res.render('index');
+    if(!req.user){
+        res.redirect('/login');
+    }
+
+    userInfo = {
+        name: req.user.name,
+        username: req.user.username,
+    }
+
+    res.render('index', {
+        baseUrl: config.baseUrl,
+        userInfo: userInfo
+    });
+
 });
 
 router.get('/perfil', function (req, res, next) {
