@@ -10,7 +10,7 @@ var config = {
     app: {
       name: 'st0263-proyecto2'
     },
-    port: process.env.PORT || 3003,
+    port: process.env.PORT || 3000,
     db: 'mongodb://localhost/st0263-proyecto2-development'
   },
 
@@ -21,7 +21,7 @@ var config = {
     app: {
       name: 'st0263-proyecto2'
     },
-    port: process.env.PORT || 3003,
+    port: process.env.PORT || 3000,
     db: 'mongodb://localhost/st0263-proyecto2-test'
   },
 
