@@ -74,13 +74,13 @@ router.get('/create', function (req, res, next) {
 });
 
 router.get('/perfil', function (req, res, next) {
-    if (!req.user) {
-        return res.redirect('/login?required=true');
+    if(!req.user){
+        return res.redirect("/login");
     }
-
     return res.render('perfil', {
-        userInfo: req.user,
-        baseUrl: config.baseUrl
+        baseUrl: config.baseUrl,
+        userInfo: req.user
+
     });
 });
 
@@ -96,13 +96,20 @@ router.get('/reportes', function (req, res) {
 });
 
 
-router.get('/conductor', function (req, res, next) {
+router.get('/conductor/:id', function (req, res, next) {
     if(!req.user){
         return res.redirect("/login");
     }
-    res.render('conductor', {
-        baseUrl: config.baseUrl,
-        userInfo: req.user
+    Conductor.findOne({_id: req.params.id},function(err, cond) {
+        if (err) return res.send(err);
+
+        console.log("CONDUCTOR: " + cond);
+        return res.render('conductor', {
+            conductor: cond,
+            baseUrl: config.baseUrl,
+            userInfo: req.user
+
+        });
     });
 });
 
