@@ -1,4 +1,9 @@
-<% include header %>
+<% if(!userInfo){ %>
+<%    include headerNA %>
+<% }else{ %>
+<%    include header %>
+<% } %>
+
 
 <!-- ============================================================== -->
 <!-- Page wrapper  -->

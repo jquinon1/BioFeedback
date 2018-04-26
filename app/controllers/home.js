@@ -14,20 +14,7 @@ module.exports = function (app) {
 });*/
 
 router.get('/', function (req, res, next) {
-    if(!req.user){
-        res.redirect('/login');
-    }
-
-    userInfo = {
-        name: req.user.name,
-        username: req.user.username,
-    }
-
-    res.render('index', {
-        baseUrl: config.baseUrl,
-        userInfo: userInfo
-    });
-
+    return res.redirect('/supervisor');
 });
 
 
