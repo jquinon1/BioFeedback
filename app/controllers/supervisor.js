@@ -74,9 +74,27 @@ router.get('/create', function (req, res, next) {
 });
 
 router.get('/perfil', function (req, res, next) {
-    console.log("ESTE PENE NO ABRE");
-    return res.render('perfil');
+    if (!req.user) {
+        return res.redirect('/login?required=true');
+    }
+
+    return res.render('perfil', {
+        userInfo: req.user,
+        baseUrl: config.baseUrl
+    });
 });
+
+router.get('/reportes', function (req, res) {
+    if (!req.user) {
+        return res.redirect('/login?required=true');
+    }
+
+    return res.render('reportes', {
+        baseUrl: config.baseUrl,
+        userInfo: req.user
+    });
+});
+
 
 router.get('/conductor', function (req, res, next) {
     if(!req.user){
