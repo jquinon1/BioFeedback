@@ -74,7 +74,8 @@ router.get('/create', function (req, res, next) {
 });
 
 router.get('/perfil', function (req, res, next) {
-    res.render('perfil');
+    console.log("ESTE PENE NO ABRE");
+    return res.render('perfil');
 });
 
 router.get('/conductor', function (req, res, next) {
@@ -87,15 +88,6 @@ router.get('/conductor', function (req, res, next) {
     });
 });
 
-router.get('/reportes', function (req, res, next) {
-    if(!req.user){
-        return res.redirect("/login");
-    }
-    res.render('reportes', {
-        baseUrl: config.baseUrl,
-        userInfo: req.user
-    });
-});
 
 router.get('/tables', function (req, res, next) {
     res.render('tables');
