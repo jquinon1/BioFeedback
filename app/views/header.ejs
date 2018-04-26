@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +14,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <title>BioFeedback</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%- baseUrl %>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="<%- baseUrl %>css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="<%- baseUrl %>css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -58,7 +60,7 @@
                     <!-- Logo text -->
                     <span>
                             <!-- dark Logo text -->
-                            <img src="../assets/images/logo_icon.png" alt="homepage" class="dark-logo" style="padding: 8px;"/>
+                            <img src="<%- baseUrl %>assets/images/logo_icon.png" alt="homepage" class="dark-logo" style="padding: 8px;"/>
                         </span>
                 </a>
             </div>
@@ -83,7 +85,7 @@
                 <!-- ============================================================== -->
                 <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
-                        <a href="/perfil" class="nav-link text-muted waves-effect waves-dark"><img src="../assets/images/users/user.png" alt="user" class="profile-pic m-r-5" /><%- userInfo.name %> <%- userInfo.lastname %></a>
+                        <a href="<%- baseUrl %>supervisor/perfil" class="nav-link text-muted waves-effect waves-dark"><img src="<%- baseUrl %>assets/images/users/user.png" alt="user" class="profile-pic m-r-5" /><%- userInfo.name %> <%- userInfo.lastname %></a>
                     </li>
                 </ul>
             </div>

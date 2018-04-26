@@ -74,28 +74,45 @@ router.get('/create', function (req, res, next) {
 });
 
 router.get('/perfil', function (req, res, next) {
-    res.render('perfil');
-});
-
-router.get('/conductor', function (req, res, next) {
     if(!req.user){
         return res.redirect("/login");
     }
-    res.render('conductor', {
+    return res.render('perfil', {
+        baseUrl: config.baseUrl,
+        userInfo: req.user
+
+    });
+});
+
+router.get('/reportes', function (req, res) {
+    if (!req.user) {
+        return res.redirect('/login?required=true');
+    }
+
+    return res.render('reportes', {
         baseUrl: config.baseUrl,
         userInfo: req.user
     });
 });
 
-router.get('/reportes', function (req, res, next) {
+
+router.get('/conductor/:id', function (req, res, next) {
     if(!req.user){
         return res.redirect("/login");
     }
-    res.render('reportes', {
-        baseUrl: config.baseUrl,
-        userInfo: req.user
+    Conductor.findOne({_id: req.params.id},function(err, cond) {
+        if (err) return res.send(err);
+
+        console.log("CONDUCTOR: " + cond);
+        return res.render('conductor', {
+            conductor: cond,
+            baseUrl: config.baseUrl,
+            userInfo: req.user
+
+        });
     });
 });
+
 
 router.get('/tables', function (req, res, next) {
     res.render('tables');
