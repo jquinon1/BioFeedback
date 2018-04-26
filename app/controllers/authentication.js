@@ -51,7 +51,7 @@ router.post('/signup', function (req, res) {
 
 router.get('/login', function (req, res, next) {
     if(req.user){
-      res.redirect(config.baseUrl);
+      res.redirect('/supervisor');
       return next();
     }
     res.render('login', {
@@ -63,7 +63,7 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), function (req, res) {
-  res.redirect(config.baseUrl + '');
+  res.redirect(config.baseUrl + 'supervisor');
 });
 
 

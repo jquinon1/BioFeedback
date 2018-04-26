@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var DatosSenalSchema = new Schema({
     ecg: Number,
     tiempo: Number,
-    supervisor: { type: Schema.Types.ObjectId, ref: 'Conductor' }
+    conductor: { type: Schema.Types.ObjectId, ref: 'Conductor' }
 });
 
 DatosSenalSchema.virtual('date')

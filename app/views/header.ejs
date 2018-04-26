@@ -83,7 +83,7 @@
                 <!-- ============================================================== -->
                 <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
-                        <a href="/perfil" class="nav-link text-muted waves-effect waves-dark"><img src="../assets/images/users/user.png" alt="user" class="profile-pic m-r-5" />Supervisor 1</a>
+                        <a href="/perfil" class="nav-link text-muted waves-effect waves-dark"><img src="../assets/images/users/user.png" alt="user" class="profile-pic m-r-5" /><%- userInfo.name %> <%- userInfo.lastname %></a>
                     </li>
                 </ul>
             </div>
@@ -102,10 +102,10 @@
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
                     <li>
-                        <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Conductores</a>
+                        <a href="/supervisor" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Conductores</a>
                     </li>
                     <li>
-                        <a href="/reportes" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Reportes</a>
+                        <a href="/supervisor/reportes" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Reportes</a>
                     </li>
                     <li>
                         <a href="/logout" class="waves-effect"><i class="fa fa-sign-out m-r-10" aria-hidden="true"></i>Cerrar sesión</a>

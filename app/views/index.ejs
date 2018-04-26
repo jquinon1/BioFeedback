@@ -40,62 +40,23 @@
     <!-- ============================================================== -->
     <!-- Row -->
     <div class="row">
-      <!-- Column -->
-      <div class="col-lg-3">
-        <div class="card">
-          <a href="/conductor?id=1"><img class="card-img-top img-responsive" src="../assets/images/users/user.png" alt="Card"></a>
-          <div class="card-block">
-            <div class="row">
-              <a href="/conductor?id=1" class="col-lg-9"><h5 class="font-normal">Conductor # 1</h5></a>
-              <span class="col-lg-2"><i class="fa fa-circle m-r-10 online" aria-hidden="true"></i></span>
+      <% conductores.forEach(function (conductor) { %>
+        <!-- Column -->
+        <div class="col-lg-3">
+          <div class="card">
+            <a href="/conductor?id=<%- conductor._id %>"><img class="card-img-top img-responsive" src="../assets/images/users/user.png" alt="Card"></a>
+            <div class="card-block">
+              <div class="row">
+                <a href="/conductor?id=<%- conductor._id %>" class="col-lg-9"><h5 class="font-normal"><%- conductor.nombre %> <%- conductor.apellidos %></h5></a>
+                <span class="col-lg-2"><i class="fa fa-circle m-r-10 online" aria-hidden="true"></i></span>
 
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Column -->
-      <!-- Column -->
-      <div class="col-lg-3">
-        <div class="card">
-          <a href="/conductor?id=2"><img class="card-img-top img-responsive" src="../assets/images/users/user.png" alt="Card"></a>
-          <div class="card-block">
-            <div class="row">
-              <a href="/conductor?id=2" class="col-lg-9"><h5 class="font-normal">Conductor # 2</h5></a>
-              <span class="col-lg-2"><i class="fa fa-circle m-r-10 online" aria-hidden="true"></i></span>
+        <!-- Column -->
+      <% }); %>
 
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Column -->
-      <!-- Column -->
-      <div class="col-lg-3">
-        <div class="card">
-          <a href="/conductor?id=3"><img class="card-img-top img-responsive" src="../assets/images/users/user.png" alt="Card"></a>
-          <div class="card-block">
-            <div class="row">
-              <a href="/conductor?id=3" class="col-lg-9"><h5 class="font-normal">Conductor # 3</h5></a>
-              <span class="col-lg-2"><i class="fa fa-circle m-r-10 online" aria-hidden="true"></i></span>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Column -->
-      <!-- Column -->
-      <div class="col-lg-3">
-        <div class="card">
-          <a href="/conductor?id=4"><img class="card-img-top img-responsive" src="../assets/images/users/user.png" alt="Card"></a>
-          <div class="card-block">
-            <div class="row">
-              <a href="/conductor?id=4" class="col-lg-9"><h5 class="font-normal">Conductor # 4</h5></a>
-              <span class="col-lg-2"><i class="fa fa-circle m-r-10 online" aria-hidden="true"></i></span>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Column -->
     </div>
 
     <div class="row">

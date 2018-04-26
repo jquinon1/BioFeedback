@@ -30,26 +30,6 @@ router.get('/', function (req, res, next) {
 
 });
 
-router.get('/perfil', function (req, res, next) {
-    res.render('perfil');
-});
-
-router.get('/conductor', function (req, res, next) {
-    res.render('conductor');
-});
-
-router.get('/reportes', function (req, res, next) {
-    res.render('reportes');
-});
-
-router.get('/tables', function (req, res, next) {
-    res.render('tables');
-});
-
-router.get('/map', function (req, res, next) {
-    res.render('map');
-});
-
 
 
 router.get('/unauthorized', function (req, res, next) {
