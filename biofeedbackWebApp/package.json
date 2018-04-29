@@ -24,7 +24,8 @@
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "watson-developer-cloud": "^3.4.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
