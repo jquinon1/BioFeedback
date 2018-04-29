@@ -3,15 +3,14 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var CategorySchema = new Schema({
-  name: String
+var RolSchema = new Schema({
+  nombre: String
 
 });
 
-CategorySchema.virtual('date')
+RolSchema.virtual('date')
   .get(function(){
     return this._id.getTimestamp();
   });
 
-mongoose.model('Category', CategorySchema);
-
+mongoose.model('Rol', RolSchema);

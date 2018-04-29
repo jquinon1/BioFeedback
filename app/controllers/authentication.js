@@ -28,8 +28,7 @@ router.get('/signup', function (req, res, next) {
   }
   res.render('signup', {
     title: "Sign Up",
-    baseUrl: config.baseUrl,
-    userInfo: userInfo
+    baseUrl: config.baseUrl
   });
 });
 
@@ -52,7 +51,7 @@ router.post('/signup', function (req, res) {
 
 router.get('/login', function (req, res, next) {
     if(req.user){
-      res.redirect(config.baseUrl);
+      res.redirect('/supervisor');
       return next();
     }
     res.render('login', {
@@ -64,13 +63,13 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), function (req, res) {
-  res.redirect(config.baseUrl + 'videos');
+  res.redirect(config.baseUrl + 'supervisor');
 });
 
 
 router.get('/logout', function (req, res) {
   req.logout();
-  res.redirect(config.baseUrl + 'videos');
+  res.redirect(config.baseUrl + '');
 });
 
 // SSO

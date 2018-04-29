@@ -1,7 +1,6 @@
 var express = require('express'),
   router = express.Router(),
-  mongoose = require('mongoose'),
-  Article = mongoose.model('Article');
+  mongoose = require('mongoose');
 
 
 var config = require('../../config/config');
@@ -15,23 +14,8 @@ module.exports = function (app) {
 });*/
 
 router.get('/', function (req, res, next) {
-    res.render('index');
+    return res.redirect('/supervisor');
 });
-
-router.get('/profile', function (req, res, next) {
-    res.render('profile');
-});
-
-
-router.get('/tables', function (req, res, next) {
-    res.render('tables');
-});
-
-router.get('/map', function (req, res, next) {
-    res.render('map');
-});
-
-
 
 router.get('/unauthorized', function (req, res, next) {
   res.status(401).send('You are not authorized to access this page');

@@ -8,6 +8,7 @@ var UserSchema = new Schema({
   lastname: String,
   username: {type: String, unique: true/*, required: true*/},
   password: String,
+  rol: { type: Schema.Types.ObjectId, ref: 'Rol' },
   google: {
 		id: String,
 		token: String,
