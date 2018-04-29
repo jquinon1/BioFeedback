@@ -16,7 +16,6 @@ var config = {
 
   test: {
     baseUrl: "/vquinte3/",
-    ip: "10.131.137.244",
     root: rootPath,
     app: {
       name: 'biofeedback'
@@ -27,7 +26,6 @@ var config = {
 
   production: {
     baseUrl: "/",
-    ip: "10.131.137.244",
     root: rootPath,
     app: {
       name: 'biofeedback'
