@@ -1,6 +1,6 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
-    env = process.env.NODE_ENV || 'production';
+    env = process.env.NODE_ENV || 'development';
 
 var config = {
   development: {
@@ -16,6 +16,7 @@ var config = {
 
   test: {
     baseUrl: "/vquinte3/",
+    ip: "10.131.137.244",
     root: rootPath,
     app: {
       name: 'biofeedback'
