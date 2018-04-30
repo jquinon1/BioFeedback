@@ -8,7 +8,7 @@ var config = {
     ip: "localhost",
     root: rootPath,
     app: {
-      name: 'st0263-proyecto2'
+      name: 'biofeedback'
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost/st0263-proyecto2-development'
@@ -16,10 +16,10 @@ var config = {
 
   test: {
     baseUrl: "/vquinte3/",
-    ip: "10.131.137.188",
+    ip: "10.131.137.244",
     root: rootPath,
     app: {
-      name: 'st0263-proyecto2'
+      name: 'biofeedback'
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost/st0263-proyecto2-test'
@@ -27,13 +27,12 @@ var config = {
 
   production: {
     baseUrl: "/",
-    ip: "10.131.137.188",
     root: rootPath,
     app: {
-      name: 'st0263-proyecto2'
+      name: 'biofeedback'
     },
     port: process.env.PORT || 5000,
-    db: 'mongodb://vquinte3:lenovo12@ds133670.mlab.com:33670/yt2'
+    db: 'mongodb://localhost/biofeedback'
   }
 };
 
