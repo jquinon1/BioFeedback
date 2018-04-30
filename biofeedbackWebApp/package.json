@@ -17,6 +17,7 @@
     "ejs": "^2.3.1",
     "express": "^4.13.3",
     "express-session": "^1.15.5",
+    "formidable": "^1.2.1",
     "glob": "^6.0.4",
     "method-override": "^2.3.0",
     "mongoose": "^4.1.2",
