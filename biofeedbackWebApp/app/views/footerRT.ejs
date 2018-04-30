@@ -44,6 +44,60 @@
 <!-- ============================================================== -->
 <script src="<%- baseUrl %>assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
+<script type="text/javascript" charset="utf-8">
+    function addmsg(id_cond, msg){
+        /* Simple helper to add a div.
+        type is the name of a CSS class (old/new/error).
+        msg is the contents of the div */
+        if(msg == "true"){
+            $("#" + id_cond).css({"color": "red"});
+        }else {
+            $("#" + id_cond).css({"color": "green"});
+        }
+
+    }
+
+    function waitForMsg(id_cond){
+
+        /* This requests the url "msgsrv.php"
+        When it complete (or errors)*/
+        endpoint = "/supervisor/estado_conductor/" + id_cond;
+        $.ajax({
+            type: "GET",
+            url: endpoint,
+
+            async: true, /* If set to non-async, browser shows page as "Loading.."*/
+            cache: false,
+            timeout:50000, /* Timeout in ms */
+
+            success: function(data){ /* called when request to barge.php completes */
+                addmsg(id_cond, data); /* Add response to a .msg div (with the "new" class)*/
+                setTimeout(
+                    waitForMsg, /* Request next message */
+                    1000, /* ..after 1 seconds */
+                    id_cond
+                );
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                addmsg("error", textStatus + " (" + errorThrown + ")");
+                setTimeout(
+                    waitForMsg(id_cond), /* Try again after.. */
+                    15000, /* milliseconds (15seconds) */
+                    id_cond
+                );
+            }
+        });
+    };
+
+    $(document).ready(function(){
+        //waitForMsg(); /* Start the inital request */
+        $(".online").each(function(i,item){
+            id_con = $(this).attr('id');
+            waitForMsg(id_con);
+        });
+    });
+</script>
+
 </body>
 
 </html>

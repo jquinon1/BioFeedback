@@ -50,6 +50,19 @@ router.get('/get', function (req, res) {
 
 });
 
+router.get('/estado_conductor/:id', function (req, res) {
+
+    if(!req.user){
+        return res.redirect("/login?error=true");
+    }
+
+    Conductor.findOne({_id: req.params.id}, function (err, condu) {
+            if (err) return res.send(err);
+
+            return res.status(200).end(condu.estado_afan.toString());
+        });
+
+});
 
 router.get('/create', function (req, res, next) {
     if(!req.user){
@@ -57,10 +70,11 @@ router.get('/create', function (req, res, next) {
     }
 
     cond = new Conductor({
-        nombre: "Camilo",
-        apellidos: "Henao",
+        nombre: "Mariana",
+        apellidos: "Quintero",
         fecha_nacimiento: new Date,
-        telefono: "222222",
+        telefono: "222223",
+        estado_afan: false,
         supervisor: req.user._id
     });
 
