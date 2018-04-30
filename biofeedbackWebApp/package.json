@@ -14,10 +14,14 @@
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "cookie-parser": "^1.3.3",
+    "cookie-session": "^2.0.0-beta.3",
     "ejs": "^2.3.1",
     "express": "^4.13.3",
+<<<<<<< HEAD
     "express-session": "^1.15.5",
     "formidable": "^1.2.1",
+=======
+>>>>>>> 9987901b5603624f107137bb3efabc864b021b79
     "glob": "^6.0.4",
     "method-override": "^2.3.0",
     "mongoose": "^4.1.2",

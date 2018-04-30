@@ -10,7 +10,7 @@ var methodOverride = require('method-override');
 
 var passport = require('passport');
 
-var session = require('express-session');
+var session = require('cookie-session');
 
 var config = require('./config');
 
