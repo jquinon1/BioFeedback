@@ -5,7 +5,6 @@ var path = require('path'),
 var config = {
   development: {
     baseUrl: "/",
-    ip: "localhost",
     root: rootPath,
     app: {
       name: 'biofeedback'
@@ -16,7 +15,6 @@ var config = {
 
   test: {
     baseUrl: "/vquinte3/",
-    ip: "10.131.137.244",
     root: rootPath,
     app: {
       name: 'biofeedback'
