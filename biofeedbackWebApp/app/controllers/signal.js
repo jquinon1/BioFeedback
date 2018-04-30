@@ -10,6 +10,40 @@ module.exports = function (app) {
     app.use('/signal', router);
 };
 
+heartRateValues = [];
+
+router.post('/save', function (req, res) {
+    console.log(req.body);
+
+    Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
+        console.log("CONDUCTOR: " + condu);
+        if (err) {
+            return res.send(err);
+        }else if (condu == null){
+            return res.end("Id de conductor invalido");
+        }
+
+        if (condu.senales_recibidas == 0){
+
+        }
+
+        signal = new Senal({
+            ecg: req.body.ecg,
+            tiempo: req.body.tiempo,
+            conductor: condu._id
+        });
+
+        Senal.create(signal, function (err, sigObj) {
+            if(err)
+                return res.send(err);
+            return res.json(sigObj);
+        });
+
+
+    });
+
+});
+
 router.get('/get', function (req, res, next) {
     Senal.find()
         .populate('conductor')
@@ -23,10 +57,10 @@ router.get('/get/:user', function (req, res, next) {
     Senal.find()
         .populate({
             path: 'conductor',
-            match: { _id: req.params.user}
+            match: {_id: req.params.user}
         })
         .exec(function (err, signalData) {
-            if (err) res.send(err);
+            if (err) return res.send(err);
             return res.json(signalData);
         });
 });

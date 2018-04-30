@@ -10,10 +10,10 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res) {
-
     if(!req.user) {
         return res.redirect('/login?required=true');
     }
+
 
     Conductor.find()
         .populate({
@@ -60,7 +60,7 @@ router.get('/estado_conductor/:id', function (req, res) {
             if (err) return res.send(err);
 
             return res.status(200).end(condu.estado_afan.toString());
-        });
+    });
 
 });
 

@@ -68,8 +68,8 @@ print("sssssssssssssssssss", type(clf))
 
 
 def index(request):
-    var = clf.predict([[66.65]])
-    return HttpResponse("Hello, world. You're at the polls index." + str(var))
+    var = clf.predict([[102.54]])
+    return HttpResponse("Prediccion [1] --> No afan [2] --> Afan<br>" + str(var))
 
 @csrf_exempt
 def process(request):
@@ -82,6 +82,7 @@ def process(request):
         if 'HeartRate' in body.keys():
             hrate = body['HeartRate']
 
+            clf.predict([[float(hrate)]])
 
         else:
             print ("boo")
