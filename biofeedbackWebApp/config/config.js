@@ -10,7 +10,7 @@ var config = {
       name: 'biofeedback'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/st0263-proyecto2-development'
+    db: 'mongodb://localhost/biofeedback'
   },
 
   test: {
