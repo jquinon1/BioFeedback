@@ -15,7 +15,7 @@ var config = {
   },
 
   test: {
-    baseUrl: "/vquinte3/",
+    baseUrl: "/",
     ip: "10.131.137.244",
     root: rootPath,
     app: {
