@@ -1,9 +1,10 @@
 var express = require('express'),
-    router = express.Router(),
+    request = require('request'),
     mongoose = require('mongoose'),
     Senal = mongoose.model('DatosSenal'),
     Conductor = mongoose.model('Conductor'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    router = express.Router();
 
 var config = require('../../config/config');
 module.exports = function (app) {
@@ -13,35 +14,78 @@ module.exports = function (app) {
 heartRateValues = [];
 
 router.post('/save', function (req, res) {
-    console.log(req.body);
 
     Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
-        console.log("CONDUCTOR: " + condu);
         if (err) {
             return res.send(err);
         }else if (condu == null){
             return res.end("Id de conductor invalido");
         }
+        console.log(condu.senales_recibidas);
+        if (condu.senales_recibidas >= 10){
 
-        if (condu.senales_recibidas == 0){
+            Senal.find({conductor: condu._id}).sort({_id: -1}).limit(10).exec(function (err, sen) {
+                if (err) return res.send(err);
+                console.log("señales sorted: " + sen);
 
+                rand = (Math.random()*(89 - 77) + 77);
+
+                //body = {
+                //    "HeartRate": rand
+                //}
+                // AQUI SE ENVIAN LAS SEÑALES A MATLAB
+
+                request.post(
+                    'http://localhost:8000/signal/',
+                    { json: { HeartRate: rand } },
+                    function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log(body);
+                            if(body != "Error"){
+                                console.log("ENTRE GONORREAS");
+                                request.post(
+                                    'http://localhost:3000/supervisor/cambiar_estado',
+                                    { json: { conductor: condu._id, estado_afan: body } },
+                                    function (err, res, bod) {
+                                        if (!err && res.statusCode == 200) {
+                                            console.log(bod);
+                                        }else {
+                                            console.log("error: " + err);
+                                        }
+                                    }
+                                );
+                            }else {
+                                console.log("Error");
+                            }
+                        }
+                    }
+                );
+
+                return res.json(sen);
+            });
+
+            condu.senales_recibidas = 0;
+            condu.save(function (err, updatedCond) {
+                if (err) return res.send(err);
+            });
+        }else {
+            signal = new Senal({
+                ecg: req.body.ecg,
+                tiempo: req.body.tiempo,
+                conductor: condu._id
+            });
+
+            Senal.create(signal, function (err, sigObj) {
+                if (err) return res.send(err);
+                condu.senales_recibidas = condu.senales_recibidas + 1;
+                condu.save(function (err, updatedCond) {
+                    if (err) return res.send(err);
+                    return res.send(updatedCond);
+                });
+                //return res.json(sigObj);
+            });
         }
-
-        signal = new Senal({
-            ecg: req.body.ecg,
-            tiempo: req.body.tiempo,
-            conductor: condu._id
-        });
-
-        Senal.create(signal, function (err, sigObj) {
-            if(err)
-                return res.send(err);
-            return res.json(sigObj);
-        });
-
-
     });
-
 });
 
 router.get('/get', function (req, res, next) {
@@ -54,11 +98,8 @@ router.get('/get', function (req, res, next) {
 });
 
 router.get('/get/:user', function (req, res, next) {
-    Senal.find()
-        .populate({
-            path: 'conductor',
-            match: {_id: req.params.user}
-        })
+    Senal.find({conductor: req.params.user})
+        .populate('conductor')
         .exec(function (err, signalData) {
             if (err) return res.send(err);
             return res.json(signalData);
