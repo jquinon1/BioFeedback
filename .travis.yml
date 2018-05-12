@@ -6,11 +6,9 @@ env:
   
 services:
   - mongodb
-  
- addons:
-    apt:
-      update: true
-  
+addons:
+   apt:
+     update: true  
 before_script:
   - cd biofeedbackWebApp
   - npm install
