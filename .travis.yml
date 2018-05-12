@@ -6,12 +6,6 @@ env:
   
 services:
   - mongodb
-notifications:
-  email:
-    recipients:
-      - jquinon1@eafit.edu.co
-      - abedoy19@eafit.edu.co
-      - vquinte3@eafit.edu.co
 addons:
    apt:
      update: true  
