@@ -8,6 +8,8 @@ TODO: Write a project description
 2. Python 3.x
 3. virtualenv 15.0.1
 4. pip 8.1.1
+5. MongoDB 3.2.19
+6. npm 5.6.0
 
 ## 2. Instalación
 
@@ -39,9 +41,17 @@ $ source <directorioVE>/bin/activate
 $ pip install -r requirements.txt
 ```
 
-## Usage
+## 3. Ejecución del proyecto
 
-TODO: Write usage instructions
+Una vez completados los pasos de instalación se puede proceder a ejecutar el proyecto siguiendo los pasos a continuación.
+
+3.1. Ingresar a la carpeta que contiene la aplicación NodeJS 'biofeedbackWebApp' y ejecutar el siguiente comando.
+```console
+$ npm start
+```
+
+
+
 
 ## Contributing
 
