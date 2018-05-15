@@ -1,6 +1,6 @@
 # BioFeedback
 
-TODO: Write a project description
+BioFeedback es un proyecto que predice el estado de afán en conductores de automóviles.
 
 ## 1. Requisitos
 
@@ -80,26 +80,15 @@ Si todo salió correctamente se debe mostrar el siguiente mensaje 'Quit the serv
 
 3.5. Abrir con un editor de texto el archivo 'simulador_cliente.py' ubicado en la raíz del repositorio y pegar el codigo copiado previamente donde se indica a continuación ("conductor": "<PEGAR AQUÍ>"). Debe quedar de esta manera: "conductor": "5aeb39c88c131d1cf52d1a7b".
 
-3.6. 
+3.6. Ejecutar el archivo modificado usando el siguiente comando.
+```console
+$ python3 simulador_cliente.py
+```
+Si todo funciona correctamente se debe observar que se muestra información cada segundo en la terminal.
 
 
+3.7. Visualizar como cambia el estado del conductor en el http://localhost:3000/supervisor.
 
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-## History
-
-TODO: Write history
-
-## Credits
-
-TODO: Write credits
 
 ## License
 
