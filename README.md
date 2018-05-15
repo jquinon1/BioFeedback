@@ -15,6 +15,11 @@ TODO: Write a project description
 
 2.1. Clonar el repositorio.
 
+2.2. Ingresar a la carpeta del repositorio y cambiar la rama del repositorio con el siguiente comando
+```console
+$ git checkout Valentin-Quintero
+```
+
 ### Instalación de dependencias
 
 Este proyecto esta compuesto por una aplicacion desarrollada y otra aplicacion desarrollada en el framework de python Django, para ello se deben instalar las dependencias para cada una de estas aplicaciones las cuales estan ubicadas en las carpetas 'biofeedbackWebApp' y 'biofeedbackAPI' respectivamente. Los pasos de instalacion se muestran a continuacion.
@@ -53,7 +58,11 @@ $ npm start
 ```
 Si todo salió correctamente se debe mostrar el siguiente mensaje 'Express server listening on port 3000'
 
-3.2. Abrir una nueva terminal independiente a la anterior e ingresar a la carpeta que contiene la aplicación Django 'biofeedbackAPI' y ejecutar el siguiente comando.
+2.4. Abrir una nueva terminal independiente a la anterior y activar el ambiente virtual nuevamente ejecutando el siguiente comando.
+```console
+$ source <directorioVE>/bin/activate
+```
+3.2. Ingresar a la carpeta que contiene la aplicación Django 'biofeedbackAPI' y ejecutar el siguiente comando.
 ```console
 $ python manage.py runserver
 ```
@@ -68,6 +77,10 @@ Si todo salió correctamente se debe mostrar el siguiente mensaje 'Quit the serv
 3.5. Crear un nuevo conductor pulsando en el boton 'Agregar conductor', una vez creado se le redireccionará al panel del supervisor nuevamente.
 
 3.4. Dar click en el conductor previamente creado y copiar el codigo que aparece debajo de su nombre (Ej: 5afb5244db79fe17e87a0e74).
+
+3.5. Abrir con un editor de texto el archivo 'simulador_cliente.py' ubicado en la raíz del repositorio y pegar el codigo copiado previamente donde se indica a continuación ("conductor": "<PEGAR AQUÍ>"). Debe quedar de esta manera: "conductor": "5aeb39c88c131d1cf52d1a7b".
+
+3.6. 
 
 
 
