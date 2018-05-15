@@ -45,10 +45,29 @@ $ pip install -r requirements.txt
 
 Una vez completados los pasos de instalación se puede proceder a ejecutar el proyecto siguiendo los pasos a continuación.
 
-3.1. Ingresar a la carpeta que contiene la aplicación NodeJS 'biofeedbackWebApp' y ejecutar el siguiente comando.
+
+### Correr los servidores
+3.1. Abrir una nueva terminal e ingresar a la carpeta que contiene la aplicación NodeJS 'biofeedbackWebApp' y ejecutar el siguiente comando.
 ```console
 $ npm start
 ```
+Si todo salió correctamente se debe mostrar el siguiente mensaje 'Express server listening on port 3000'
+
+3.2. Abrir una nueva terminal independiente a la anterior e ingresar a la carpeta que contiene la aplicación Django 'biofeedbackAPI' y ejecutar el siguiente comando.
+```console
+$ python manage.py runserver
+```
+Si todo salió correctamente se debe mostrar el siguiente mensaje 'Quit the server with CONTROL-C'
+
+### Configurar conductor
+
+3.3. Una vez estan corriendo los servidores se debe de crear una cuenta de supervisor ingresando al siguiente enlace http://localhost:3000/signup
+
+3.4. Una vez creada la cuenta se debe proceder a ingresar al siguiente enlace que corresponde al panel del supervisor http://localhost:3000/supervisor
+
+3.5. Crear un nuevo conductor pulsando en el boton 'Agregar conductor', una vez creado se le redireccionará al panel del supervisor nuevamente.
+
+3.4. Dar click en el conductor previamente creado y copiar el codigo que aparece debajo de su nombre (Ej: 5afb5244db79fe17e87a0e74).
 
 
 
