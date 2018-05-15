@@ -2,9 +2,42 @@
 
 TODO: Write a project description
 
-## Installation
+## 1. Requisitos
 
-TODO: Describe the installation process
+1. NodeJS v8.11.1
+2. Python 3.x
+3. virtualenv 15.0.1
+4. pip 8.1.1
+
+## 2. Instalación
+
+2.1. Clonar el repositorio.
+
+### Instalación de dependencias
+
+Este proyecto esta compuesto por una aplicacion desarrollada y otra aplicacion desarrollada en el framework de python Django, para ello se deben instalar las dependencias para cada una de estas aplicaciones las cuales estan ubicadas en las carpetas 'biofeedbackWebApp' y 'biofeedbackAPI' respectivamente. Los pasos de instalacion se muestran a continuacion.
+
+#### Aplicación de NodeJS (biofeedbackWebApp)
+
+2.2. Instalar las dependencias ejecutando el siguiente comando.
+```console
+$ npm install
+```
+
+#### Aplicación REST Django (biofeedbackAPI)
+
+2.3. Crear un ambiente virtual para instalar las dependencias ejecutando el siguiente comando.
+```console
+$ virtualenv -p python3 <directorioVE>
+```
+2.4. Activar el ambiente virtual ejecutando el siguiente comando.
+```console
+$ source <directorioVE>/bin/activate
+```
+2.5. Instalar las dependencias ejecutando el siguiente comando.
+```console
+$ pip install -r requirements.txt
+```
 
 ## Usage
 
