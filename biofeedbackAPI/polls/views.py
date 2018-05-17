@@ -75,19 +75,19 @@ def index(request):
 def process(request):
     #if request.is_ajax():
     if request.method == 'POST':
-        print ("Raw Data: ", request.body)
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
         if 'HeartRate' in body.keys():
             hrate = body['HeartRate']
-
-            clf.predict([[float(hrate)]])
-
+            print(body)
+            pred = clf.predict([[float(hrate)]])
+            if pred == [1]:
+                return HttpResponse("false")
+            elif pred == [2]:
+                return HttpResponse("true")
         else:
-            print ("boo")
+            print ("Error")
 
-        content = body['content']
-
-        return JsonResponse(body)
+        return HttpResponse("Error")
     return HttpResponse("Not available")
