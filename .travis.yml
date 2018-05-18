@@ -3,7 +3,16 @@ node_js:
   - "stable"
 env:
   - NODE_ENV="production"
-  
+
+notifications:
+  email:
+    recipients:
+      - jquinon1@eafit.edu.co
+      - abedoy19@eafit.edu.co
+      - vquinte3@eafit.edu.co
+    on_success: never # default: change
+    on_failure: always # default: always
+
 services:
   - mongodb
 addons:
@@ -11,4 +20,5 @@ addons:
      update: true  
 before_script:
   - cd biofeedbackWebApp
-script: npm install
+  - npm install
+script: npm test
