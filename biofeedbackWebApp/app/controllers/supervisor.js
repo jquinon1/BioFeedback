@@ -72,7 +72,7 @@ router.get('/create', function (req, res, next) {
     cond = new Conductor({
         nombre: "Mariana",
         apellidos: "Quintero",
-        fecha_nacimiento: new Date,
+        fecha_nacimiento: new Date(),
         telefono: "222223",
         estado_afan: false,
         supervisor: req.user._id
