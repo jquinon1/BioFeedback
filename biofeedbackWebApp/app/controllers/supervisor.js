@@ -1,8 +1,16 @@
+/*jshint esversion: 6 */
 var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     Conductor = mongoose.model('Conductor'),
     User = mongoose.model('User');
+
+require('dotenv').config();
+
+var accountSid = process.env.TWILIO_ACCOUNT_SID ;
+var authToken = process.env.TWILIO_TOKEN;
+var client = require('twilio')(accountSid, authToken);
+
 
 var config = require('../../config/config');
 module.exports = function (app) {
@@ -40,12 +48,18 @@ router.post('/cambiar_estado', function (req, res) {
         }else if (req.body.estado_afan == false){
             condu.estado_afan = false;
         }
+        //client.messages.create({
+        //      body: 'This is a biofeedback test message',
+        //      from: 'twilio number',
+        //      to: process.env.TWILIO_PHONE
+        //    }).then(message => console.log(message.sid)).done();
         condu.save(function (err, updatedCond) {
             if (err) return res.send(err);
             return res.json(updatedCond);
         });
 
     });
+
 });
 
 router.get('/get', function (req, res) {
@@ -86,7 +100,6 @@ router.get('/agregar_conductor', function (req, res, next) {
                 userInfo: req.user
         });
     }
-q
 });
 
 router.post('/agregar_conductor', function (req, res) {
