@@ -11,4 +11,5 @@ addons:
      update: true  
 before_script:
   - cd biofeedbackWebApp
-script: npm install
+  - npm install
+script: npm test
