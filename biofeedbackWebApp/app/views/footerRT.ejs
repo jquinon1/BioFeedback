@@ -1,0 +1,103 @@
+<!-- ============================================================== -->
+<!-- footer -->
+<!-- ============================================================== -->
+<footer class="footer text-center">
+  © 2018 BioFeedback
+</footer>
+<!-- ============================================================== -->
+<!-- End footer -->
+<!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="<%- baseUrl %>assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src="<%- baseUrl %>assets/plugins/bootstrap/js/tether.min.js"></script>
+<script src="<%- baseUrl %>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src="<%- baseUrl %>js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="<%- baseUrl %>js/waves.js"></script>
+<!--Menu sidebar -->
+<script src="<%- baseUrl %>js/sidebarmenu.js"></script>
+<!--stickey kit -->
+<script src="<%- baseUrl %>assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+<!--Custom JavaScript -->
+<script src="<%- baseUrl %>js/custom.min.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugins -->
+<!-- ============================================================== -->
+<!-- Flot Charts JavaScript -->
+<script src="<%- baseUrl %>assets/plugins/flot/jquery.flot.js"></script>
+<script src="<%- baseUrl %>assets/plugins/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+<script src="<%- baseUrl %>js/flot-data.js"></script>
+<!-- ============================================================== -->
+<!-- Style switcher -->
+<!-- ============================================================== -->
+<script src="<%- baseUrl %>assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    function addmsg(id_cond, msg){
+        /* Simple helper to add a div.
+        type is the name of a CSS class (old/new/error).
+        msg is the contents of the div */
+        if(msg == "true"){
+            $("#" + id_cond).css({"color": "red"});
+        }else {
+            $("#" + id_cond).css({"color": "green"});
+        }
+
+    }
+
+    function waitForMsg(id_cond){
+
+        /* This requests the url "msgsrv.php"
+        When it complete (or errors)*/
+        endpoint = "/supervisor/estado_conductor/" + id_cond;
+        $.ajax({
+            type: "GET",
+            url: endpoint,
+
+            async: true, /* If set to non-async, browser shows page as "Loading.."*/
+            cache: false,
+            timeout:50000, /* Timeout in ms */
+
+            success: function(data){ /* called when request to barge.php completes */
+                addmsg(id_cond, data); /* Add response to a .msg div (with the "new" class)*/
+                setTimeout(
+                    waitForMsg, /* Request next message */
+                    1000, /* ..after 1 seconds */
+                    id_cond
+                );
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                addmsg("error", textStatus + " (" + errorThrown + ")");
+                setTimeout(
+                    waitForMsg(id_cond), /* Try again after.. */
+                    15000, /* milliseconds (15seconds) */
+                    id_cond
+                );
+            }
+        });
+    };
+
+    $(document).ready(function(){
+        //waitForMsg(); /* Start the inital request */
+        $(".online").each(function(i,item){
+            id_con = $(this).attr('id');
+            waitForMsg(id_con);
+        });
+    });
+</script>
+
+</body>
+
+</html>
