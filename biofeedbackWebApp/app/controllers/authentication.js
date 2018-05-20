@@ -44,7 +44,7 @@ router.post('/signup', function (req, res) {
     if(err)
       res.send(err);
     req.login(user, function () {
-      res.redirect(config.baseUrl + 'videos');
+      res.redirect(config.baseUrl + '');
     });
   });
 });
