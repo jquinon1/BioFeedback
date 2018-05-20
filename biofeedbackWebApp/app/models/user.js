@@ -8,12 +8,9 @@ var UserSchema = new Schema({
   lastname: String,
   username: {type: String, unique: true/*, required: true*/},
   password: String,
+  email: String,
+  telefono: String,
   rol: { type: Schema.Types.ObjectId, ref: 'Rol' },
-  google: {
-		id: String,
-		token: String,
-		name: String
-	}
 });
 
 UserSchema.virtual('date')
