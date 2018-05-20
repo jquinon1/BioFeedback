@@ -42,7 +42,6 @@ router.post('/save', function (req, res) {
                         if (!error && response.statusCode == 200) {
                             console.log(body);
                             if(body != "Error"){
-                                console.log("ENTRE GONORREAS");
                                 request.post(
                                     'http://localhost:3000/supervisor/cambiar_estado',
                                     { json: { conductor: condu._id, estado_afan: body } },
@@ -90,6 +89,20 @@ router.post('/save', function (req, res) {
 
 router.get('/get', function (req, res, next) {
     Senal.find()
+        .populate('conductor')
+        .exec(function (err, signalData) {
+            if (err) res.send(err);
+            res.json(signalData);
+        });
+});
+
+router.get('/active', function (req, res, next) {
+    Senal.find({
+            date: {
+                $gte: new Date(2018, 1, 1),
+                $lt: new Date()
+            }
+        })
         .populate('conductor')
         .exec(function (err, signalData) {
             if (err) res.send(err);
