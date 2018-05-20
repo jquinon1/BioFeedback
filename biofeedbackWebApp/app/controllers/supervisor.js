@@ -13,13 +13,8 @@ router.get('/', function (req, res) {
     if(!req.user) {
         return res.redirect('/login?required=true');
     }
-
-
-    Conductor.find()
-        .populate({
-            path: 'supervisor',
-            match: { _id: req.user._id}
-        })
+    Conductor.find({supervisor:req.user._id})
+        .populate('supervisor')
         .exec(function (err, conductorData) {
             if (err) return res.send(err);
 
@@ -32,17 +27,35 @@ router.get('/', function (req, res) {
         });
 });
 
+router.post('/cambiar_estado', function (req, res) {
+    Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
+        if (err) {
+            return res.send(err);
+        } else if (condu == null) {
+            return res.end("Id de conductor invalido");
+        }
+        console.log("ESTO ES: " + req.body.estado_afan + " typeof" + typeof(req.body.estado_afan));
+        if (req.body.estado_afan == true) {
+            condu.estado_afan = true;
+        }else if (req.body.estado_afan == false){
+            condu.estado_afan = false;
+        }
+        condu.save(function (err, updatedCond) {
+            if (err) return res.send(err);
+            return res.json(updatedCond);
+        });
+
+    });
+});
+
 router.get('/get', function (req, res) {
 
     if(!req.user){
         return res.redirect("/login?error=true");
     }
 
-    Conductor.find()
-        .populate({
-            path: 'supervisor',
-            match: { _id: req.user._id}
-        })
+    Conductor.find({supervisor: req.user._id})
+        .populate('supervisor')
         .exec(function (err, signalData) {
             if (err) res.send(err);
             return res.json(signalData);
@@ -64,25 +77,38 @@ router.get('/estado_conductor/:id', function (req, res) {
 
 });
 
-router.get('/create', function (req, res, next) {
+router.get('/agregar_conductor', function (req, res, next) {
+    if(!req.user) {
+        return res.redirect("/login");
+    }else {
+        return res.render('agregar_conductor', {
+            baseUrl: config.baseUrl,
+                userInfo: req.user
+        });
+    }
+q
+});
+
+router.post('/agregar_conductor', function (req, res) {
     if(!req.user){
         return res.redirect("/login");
     }
 
     cond = new Conductor({
-        nombre: "Mariana",
-        apellidos: "Quintero",
-        fecha_nacimiento: new Date(),
-        telefono: "222223",
+        nombre: req.body.nombre,
+        apellidos: req.body.apellidos,
+        fecha_nacimiento: req.body.fnacimiento,
+        telefono: req.body.telefono,
         estado_afan: false,
         supervisor: req.user._id
     });
 
     Conductor.create(cond, function (err, condu) {
         if(err)
-            res.send(err);
+            return res.send(err);
+
         console.log(condu);
-        return res.end("good");
+        return res.redirect('/supervisor');
     });
 
 });
