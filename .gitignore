@@ -1,2 +1,6 @@
 biofeedbackWebApp/node_modules
-*.pyc
+biofeedbackAPI/biofeedback
+*/*/*/*.pyc
+*.log
+*.env
+simulador*
