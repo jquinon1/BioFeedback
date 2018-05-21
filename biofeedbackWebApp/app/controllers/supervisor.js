@@ -2,6 +2,7 @@ var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     Conductor = mongoose.model('Conductor'),
+    Estado = mongoose.model('Estado'),
     User = mongoose.model('User');
 
 var config = require('../../config/config');
@@ -40,9 +41,23 @@ router.post('/cambiar_estado', function (req, res) {
         }else if (req.body.estado_afan == false){
             condu.estado_afan = false;
         }
+
         condu.save(function (err, updatedCond) {
             if (err) return res.send(err);
-            return res.json(updatedCond);
+
+            estado = new Estado({
+                estado: condu.estado_afan,
+                conductor: condu._id
+            });
+
+            Estado.create(estado, function (err, es) {
+                if(err)
+                    return res.send(err);
+                console.log("Nuevo estado agregado: " + es);
+                return res.json(updatedCond);
+            });
+
+
         });
 
     });
@@ -73,6 +88,15 @@ router.get('/estado_conductor/:id', function (req, res) {
             if (err) return res.send(err);
 
             return res.status(200).end(condu.estado_afan.toString());
+    });
+
+});
+
+router.get('/test', function (req, res) {
+    Conductor.findOne({}, function (err, condu) {
+        if (err) return res.send(err);
+
+        return res.send(condu.date);
     });
 
 });
