@@ -36,32 +36,32 @@ router.get('/', function (req, res) {
 });
 
 router.post('/cambiar_estado', function (req, res) {
-    Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
-        if (err) {
-            return res.send(err);
-        } else if (condu == null) {
-            return res.end("Id de conductor invalido");
-        }
-        console.log("ESTO ES: " + req.body.estado_afan + " typeof" + typeof(req.body.estado_afan));
-        if (req.body.estado_afan == true) {
-          if (condu.estado_afan == false){
-            //client.messages.create({
-            //  body: 'El estado del conductor '+ condu.nombre +' ha cambiado a afan le recomendamos ponerse en contacto con el: '+condu.telefono,
-            //  from: process.env.TWILIO_PHONE
-            //  to: ' number',
-            //}).then(message => console.log(message.sid)).done();
-          }
-            condu.estado_afan = true;
-        }else if (req.body.estado_afan == false){
-            condu.estado_afan = false;
-        }
-        condu.save(function (err, updatedCond) {
-            if (err) return res.send(err);
-            return res.json(updatedCond);
-        });
-
-    });
-
+    Conductor.findOne({_id: req.body.conductor})
+             .populate("supervisor")
+             .exec(function (err, condu) {
+                  if (err) {
+                      return res.send(err);
+                  } else if (condu == null) {
+                      return res.end("Id de conductor invalido");
+                  }
+                  console.log("ESTO ES: " + req.body.estado_afan + " typeof" + typeof(req.body.estado_afan));
+                  if (req.body.estado_afan == true) {
+                    if (condu.estado_afan == false){
+                      client.messages.create({
+                       body: 'El estado del conductor '+ condu.nombre +' ha cambiado a afan le recomendamos ponerse en contacto con el: '+condu.telefono,
+                       from: process.env.TWILIO_PHONE
+                       to: condu.supervisor.telefono,
+                      }).then(message => console.log(message.sid)).done();
+                    }
+                      condu.estado_afan = true;
+                  }else if (req.body.estado_afan == false){
+                      condu.estado_afan = false;
+                  }
+                  condu.save(function (err, updatedCond) {
+                      if (err) return res.send(err);
+                      return res.json(updatedCond);
+                  });
+              });
 });
 
 router.get('/get', function (req, res) {
