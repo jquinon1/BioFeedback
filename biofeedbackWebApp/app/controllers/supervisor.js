@@ -50,7 +50,7 @@ router.post('/cambiar_estado', function (req, res) {
                       client.messages.create({
                        body: 'El estado del conductor '+ condu.nombre +' ha cambiado a afan le recomendamos ponerse en contacto con el: '+condu.telefono,
                        from: process.env.TWILIO_PHONE,
-                       to: condu.supervisor.telefono,
+                       to: condu.supervisor.telefono
                       }).then(message => console.log(message.sid)).done();
                     }
                       condu.estado_afan = true;
