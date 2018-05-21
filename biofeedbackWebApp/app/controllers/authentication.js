@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Rol = mongoose.model('Rol');
 
 var config = require('../../config/config');
 
@@ -33,20 +34,25 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res) {
-  console.log(req.body);
-  user = new User({
-    name: req.body.name,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    telefono: req.body.telefono,
-    username: req.body.username,
-    password: req.body.password
-  });
-  User.create(user, function (err, user) {
-    if(err)
-      res.send(err);
-    req.login(user, function () {
-      res.redirect(config.baseUrl + '');
+  Rol.findOne({nombre: "supervisor"}, function(err, rol){
+    if(err) {
+      return res.send(err);
+    }
+    user = new User({
+      name: req.body.name,
+      lastname: req.body.lastname,
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      telefono: req.body.telefono,
+      rol: rol._id   
+    });
+    User.create(user, function (err, user) {
+      if(err)
+        res.send(err);
+      req.login(user, function () {
+        res.redirect(config.baseUrl + '');
+      });
     });
   });
 });
