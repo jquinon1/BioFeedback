@@ -42,40 +42,9 @@
 <script src="<%- baseUrl %>assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
 <script>
-    function waitForMsg(id_cond){
 
-        /* This requests the url "msgsrv.php"
-        When it complete (or errors)*/
-        endpoint = "/supervisor/signal/" + id_cond;
-        $.ajax({
-            type: "GET",
-            url: endpoint,
-
-            async: true, /* If set to non-async, browser shows page as "Loading.."*/
-            cache: false,
-            timeout:50000, /* Timeout in ms */
-
-            success: function(data){ /* called when request to barge.php completes */
-                addmsg(id_cond, data); /* Add response to a .msg div (with the "new" class)*/
-                setTimeout(
-                    waitForMsg, /* Request next message */
-                    1000, /* ..after 1 seconds */
-                    id_cond
-                );
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                addmsg("error", textStatus + " (" + errorThrown + ")");
-                setTimeout(
-                    waitForMsg(id_cond), /* Try again after.. */
-                    15000, /* milliseconds (15seconds) */
-                    id_cond
-                );
-            }
-        });
-    };
 
     window.onload = function () {
-
         var dataPoints1 = [];
         var dataPoints2 = [];
 
@@ -105,7 +74,7 @@
                 type: "line",
                 xValueType: "dateTime",
                 yValueFormatString: "$####.00",
-                xValueFormatString: "hh:mm:ss TT",
+                xValueFormatString: "D/M/Y - h:mm: TT",
                 showInLegend: true,
                 name: "Company A",
                 dataPoints: dataPoints1
@@ -135,44 +104,83 @@
         var yValue1 = 600;
         var yValue2 = 605;
 
-        var time = new Date;
-// starting at 9.30 am
-        time.setHours(9);
-        time.setMinutes(30);
-        time.setSeconds(00);
-        time.setMilliseconds(00);
-
-        function updateChart(count) {
-            count = count || 1;
-            var deltaY1, deltaY2;
-            for (var i = 0; i < count; i++) {
-                time.setTime(time.getTime()+ updateInterval);
-                deltaY1 = .5 + Math.random() *(-.5-.5);
-                deltaY2 = .5 + Math.random() *(-.5-.5);
+        function updateChart(datos) {
+            //count = count || 1;
+            chart.options.data[0].dataPoints = [];
+            dataPoints1 = [];
+            var deltaY1;
+            for (var i = 0; i < datos.length; i++) {
 
                 // adding random value and rounding it to two digits.
                 yValue1 = Math.round((yValue1 + deltaY1)*100)/100;
-                yValue2 = Math.round((yValue2 + deltaY2)*100)/100;
 
+
+                fecha = new Date(datos[i].x);
                 // pushing the new values
                 dataPoints1.push({
-                    x: time.getTime(),
-                    y: yValue1
-                });
-                dataPoints2.push({
-                    x: time.getTime(),
-                    y: yValue2
+                    x: fecha.getTime(),
+                    y: datos[i].y
                 });
             }
+            console.log(dataPoints1);
+            // updating legend text with  updated with y Value
+            chart.options.data[0].dataPoints = dataPoints1;
+            chart.options.data[0].legendText = " ECG";
+            chart.render();
+        }
+
+        function updateChart2(datos) {
+            console.log(typeof(datos));
+            //var datosJson = JSON.stringify(datos);
+            //console.log(typeof(datosJson));
+            dataPoints1 = datos;
+            //dataPoints2 = datos;
 
             // updating legend text with  updated with y Value
             chart.options.data[0].legendText = " Company A  $" + yValue1;
             chart.options.data[1].legendText = " Company B  $" + yValue2;
             chart.render();
         }
+
+        var idcond = "<%= conductor._id %>";
+        function waitForMsg(id_cond){
+
+            /* This requests the url "msgsrv.php"
+            When it complete (or errors)*/
+            endpoint = "/signal/get/" + id_cond;
+            $.ajax({
+                type: "GET",
+                url: endpoint,
+
+                async: true, /* If set to non-async, browser shows page as "Loading.."*/
+                cache: false,
+                timeout:50000, /* Timeout in ms */
+
+                success: function(data){ /* called when request to barge.php completes */
+                    //console.log(data); /* Add response to a .msg div (with the "new" class)*/
+                    updateChart(data);
+
+                    setTimeout(
+                        waitForMsg, /* Request next message */
+                        1000, /* ..after 1 seconds */
+                        id_cond
+                    );
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log("error: " + textStatus + " (" + errorThrown + ")");
+                    setTimeout(
+                        waitForMsg(id_cond), /* Try again after.. */
+                        15000, /* milliseconds (15seconds) */
+                        id_cond
+                    );
+                }
+            });
+        };
+
 // generates first set of dataPoints
-        updateChart(1);
-        setInterval(function(){updateChart()}, updateInterval);
+        //updateChart(1);
+        //setInterval(function(){updateChart()}, updateInterval);
+        waitForMsg(idcond);
 
     }
 </script>

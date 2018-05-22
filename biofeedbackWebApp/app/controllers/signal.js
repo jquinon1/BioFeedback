@@ -111,12 +111,25 @@ router.get('/active', function (req, res, next) {
 });
 
 router.get('/get/:user', function (req, res, next) {
-    Senal.find({conductor: req.params.user})
-        .populate('conductor')
-        .exec(function (err, signalData) {
-            if (err) return res.send(err);
-            return res.json(signalData);
-        });
+    Senal.find({conductor: req.params.user}, function (err, signalData) {
+        if (err){
+            return res.send(err);
+        }else if (signalData == null){
+            return res.end("Id de conductor invalido o no hay señales");
+        }
+
+        data = [];
+
+        for(var i = 0;i < signalData.length;i++){
+            data.push({
+                x: signalData[i].date,
+                y: signalData[i].ecg
+            });
+        }
+
+
+        return res.json(data);
+    });
 });
 
 router.get('/save/:id', function (req, res, next) {
