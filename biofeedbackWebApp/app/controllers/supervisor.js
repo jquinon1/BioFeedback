@@ -109,10 +109,9 @@ router.get('/estado_conductor/:id', function (req, res) {
 });
 
 router.get('/test', function (req, res) {
-    Conductor.findOne({}, function (err, condu) {
-        if (err) return res.send(err);
 
-        return res.send(condu.date);
+    return res.render('live', {
+        baseUrl: config.baseUrl
     });
 
 });
@@ -123,7 +122,7 @@ router.get('/agregar_conductor', function (req, res, next) {
     }else {
         return res.render('agregar_conductor', {
             baseUrl: config.baseUrl,
-                userInfo: req.user
+            userInfo: req.user
         });
     }
 });
