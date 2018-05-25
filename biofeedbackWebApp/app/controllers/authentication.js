@@ -23,14 +23,20 @@ router.get('/users', function (req, res, next) {
 });
 
 router.get('/signup', function (req, res, next) {
-  if(req.user){
-    res.redirect(config.baseUrl);
-    return next();
+  Rol.findOne({nombre: "administrador"}, function(err, rol){
+    if(err) {
+      return res.send(err);
   }
-  res.render('signup', {
-    title: "Sign Up",
-    baseUrl: config.baseUrl
-  });
+  console.log(req.user.rol + "-" + rol._id) ;
+  if(req.user.rol==rol._id){
+      return res.render('signup', {
+        title: "Sign Up",
+        baseUrl: config.baseUrl
+        });
+  }else{
+    return res.redirect('/supervisor');
+  }
+});
 });
 
 router.post('/signup', function (req, res) {
@@ -50,18 +56,17 @@ router.post('/signup', function (req, res) {
     User.create(user, function (err, user) {
       if(err)
         res.send(err);
-      req.login(user, function () {
-        res.redirect(config.baseUrl + '');
-      });
+        res.redirect(config.baseUrl + 'signup');
+      
     });
   });
 });
 
 router.get('/login', function (req, res, next) {
-    if(req.user){
-      res.redirect('/supervisor');
-      return next();
-    }
+  if(req.user){
+    res.redirect(config.baseUrl);
+    return next();
+  }
     res.render('login', {
       title: 'Log In',
       baseUrl: config.baseUrl
@@ -71,7 +76,18 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), function (req, res) {
-  res.redirect(config.baseUrl + 'supervisor');
+  Rol.findOne({nombre: "supervisor"}, function(err, rol){
+    if(err) {
+      return res.send(err);
+    }
+    console.log(req.user.rol+ "-" + rol._id);
+    if(req.user.rol==rol._id){
+      return res.redirect('/supervisor');
+    }else{
+      return res.redirect('/signup');
+    }
+ // res.redirect(config.baseUrl + 'supervisor');
+});
 });
 
 
