@@ -3,18 +3,15 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import os
-
-cwd = os.getcwd()
-
 import numpy as np
 
-path = 'DatasetEntrenamiento/NoAfan'
+path = 'DatasetEntrenamiento/LeaveOneOutCrossValidation/NoAfan'
 
 arrNoAfan = []
 
 for filename in os.listdir(path):
     # do your stuff
-    with open('DatasetEntrenamiento/NoAfan/' + filename) as json_data:
+    with open('DatasetEntrenamiento/LeaveOneOutCrossValidation/NoAfan/' + filename) as json_data:
         features = []
         noafan = {}
         d = json.load(json_data)
@@ -23,20 +20,20 @@ for filename in os.listdir(path):
         features.append(d['mean_RR'])
 
         noafan['feature'] = features
-        
+
         noafan['estado'] = 1
         arrNoAfan.append(noafan)
 
 # print(arrNoAfan)
 
-path = 'DatasetEntrenamiento/Afan'
+path = 'DatasetEntrenamiento/LeaveOneOutCrossValidation/Afan'
 
 afan = {}
 arrAfan = []
 
 for filename in os.listdir(path):
     # do your stuff
-    with open('DatasetEntrenamiento/Afan/' + filename) as json_data:
+    with open('DatasetEntrenamiento/LeaveOneOutCrossValidation/Afan/' + filename) as json_data:
         features = []
         afan = {}
         d = json.load(json_data)
@@ -101,3 +98,54 @@ def process(request):
 
         return HttpResponse("Error")
     return HttpResponse("Not available")
+
+def accuracy(request):
+    asserts = 0
+    fails = 0
+    total = 0
+    
+    path = 'DatasetTest/LeaveOneOutCrossValidation/NoAfan'
+    
+    for filename in os.listdir(path):
+        # do your stuff
+        with open('DatasetTest/LeaveOneOutCrossValidation/NoAfan/' + filename) as json_data:
+            total = total + 1
+            d = json.load(json_data)
+            
+            averageHR = d['maverageHeartRate']
+            meanSSinter = d['meanSSinterval']
+            meanRRinter = d['mean_RR']
+
+            predict = clf.predict([[averageHR, meanSSinter, meanRRinter]])
+
+            if predict == [1]:
+                asserts = asserts + 1
+            else:
+                fails = fails + 1
+
+    path = 'DatasetTest/LeaveOneOutCrossValidation/Afan'
+    for filename in os.listdir(path):
+        # do your stuff
+        with open('DatasetTest/LeaveOneOutCrossValidation/Afan/' + filename) as json_data:
+            total = total + 1
+            d = json.load(json_data)
+            
+            averageHR = d['maverageHeartRate']
+            meanSSinter = d['meanSSinterval']
+            meanRRinter = d['mean_RR']
+
+            predict = clf.predict([[averageHR, meanSSinter, meanRRinter]])
+
+            if predict == [2]:
+                asserts = asserts + 1
+            else:
+                fails = fails + 1
+
+    result = {}
+    result['asserts'] = asserts
+    result['fails'] = fails
+    result['total'] = total
+
+    return JsonResponse(result)
+
+
