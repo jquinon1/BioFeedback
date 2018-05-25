@@ -5,7 +5,6 @@ import json
 import os
 
 cwd = os.getcwd()
-print(cwd)
 
 import numpy as np
 
@@ -16,10 +15,15 @@ arrNoAfan = []
 for filename in os.listdir(path):
     # do your stuff
     with open('DatasetEntrenamiento/NoAfan/' + filename) as json_data:
+        features = []
         noafan = {}
         d = json.load(json_data)
-        noafan['feature'] = d['averageHeartRate']
-        print(d['averageHeartRate'])
+        features.append(d['maverageHeartRate'])
+        features.append(d['meanSSinterval'])
+        features.append(d['mean_RR'])
+
+        noafan['feature'] = features
+        
         noafan['estado'] = 1
         arrNoAfan.append(noafan)
 
@@ -33,9 +37,15 @@ arrAfan = []
 for filename in os.listdir(path):
     # do your stuff
     with open('DatasetEntrenamiento/Afan/' + filename) as json_data:
+        features = []
         afan = {}
         d = json.load(json_data)
-        afan['feature'] = d['averageHeartRate']
+        features.append(d['maverageHeartRate'])
+        features.append(d['meanSSinterval'])
+        features.append(d['mean_RR'])
+
+        afan['feature'] = features
+
         afan['estado'] = 2
         arrAfan.append(afan)
 
@@ -45,11 +55,11 @@ X = []
 Y = []
 
 for feature in arrNoAfan:
-    X.append([feature['feature']])
+    X.append(feature['feature'])
     Y.append(feature['estado'])
 
 for feature in arrAfan:
-    X.append([feature['feature']])
+    X.append(feature['feature'])
     Y.append(feature['estado'])
 
 print("FEATURES: " + str(X))
@@ -60,15 +70,15 @@ print("LENGTH: " + str(len(Y)))
 X = np.array(X)
 Y = np.array(Y)
 
+
+
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
 clf.fit(X, Y)
 
-print("sssssssssssssssssss", type(clf))
-
 
 def index(request):
-    var = clf.predict([[102.54]])
+    var = clf.predict([[102.54,70.2,72.5]])
     return HttpResponse("Prediccion [1] --> No afan [2] --> Afan<br>" + str(var))
 
 @csrf_exempt
