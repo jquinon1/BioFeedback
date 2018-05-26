@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Rol = mongoose.model('Rol');
 
 var config = require('../../config/config');
 
@@ -22,17 +23,24 @@ router.get('/users', function (req, res, next) {
 });
 
 router.get('/signup', function (req, res, next) {
-  if(req.user){
-    res.redirect(config.baseUrl);
-    return next();
+  Rol.findOne({nombre: "administrador"}, function(err, rol){
+    if(err) {
+      return res.send(err);
   }
-  res.render('signup', {
-    title: "Sign Up",
-    baseUrl: config.baseUrl
-  });
+  console.log(req.user.rol + "-" + rol._id) ;
+  if(req.user.rol==rol._id){
+      return res.render('signup', {
+        title: "Sign Up",
+        baseUrl: config.baseUrl
+        });
+  }else{
+    return res.redirect('/supervisor');
+  }
+});
 });
 
 router.post('/signup', function (req, res) {
+<<<<<<< HEAD
   console.log(req.body);
   user = new User({
     name: req.body.name,
@@ -47,15 +55,35 @@ router.post('/signup', function (req, res) {
       res.send(err);
     req.login(user, function () {
       res.redirect(config.baseUrl + '');
+=======
+  Rol.findOne({nombre: "supervisor"}, function(err, rol){
+    if(err) {
+      return res.send(err);
+    }
+    user = new User({
+      name: req.body.name,
+      lastname: req.body.lastname,
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      telefono: req.body.telefono,
+      rol: rol._id   
+    });
+    User.create(user, function (err, user) {
+      if(err)
+        res.send(err);
+        res.redirect(config.baseUrl + 'signup');
+      
+>>>>>>> a262bf41d38066e842f2ed30a9d1122ca9560436
     });
   });
 });
 
 router.get('/login', function (req, res, next) {
-    if(req.user){
-      res.redirect('/supervisor');
-      return next();
-    }
+  if(req.user){
+    res.redirect(config.baseUrl);
+    return next();
+  }
     res.render('login', {
       title: 'Log In',
       baseUrl: config.baseUrl
@@ -65,7 +93,18 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), function (req, res) {
-  res.redirect(config.baseUrl + 'supervisor');
+  Rol.findOne({nombre: "supervisor"}, function(err, rol){
+    if(err) {
+      return res.send(err);
+    }
+    console.log(req.user.rol+ "-" + rol._id);
+    if(req.user.rol==rol._id){
+      return res.redirect('/supervisor');
+    }else{
+      return res.redirect('/signup');
+    }
+ // res.redirect(config.baseUrl + 'supervisor');
+});
 });
 
 
