@@ -4,3 +4,4 @@ biofeedbackAPI/biofeedback
 *.log
 *.env
 simulador*
+.profile

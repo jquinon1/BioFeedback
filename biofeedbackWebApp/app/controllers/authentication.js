@@ -40,22 +40,6 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res) {
-<<<<<<< HEAD
-  console.log(req.body);
-  user = new User({
-    name: req.body.name,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    telefono: req.body.telefono,
-    username: req.body.username,
-    password: req.body.password
-  });
-  User.create(user, function (err, user) {
-    if(err)
-      res.send(err);
-    req.login(user, function () {
-      res.redirect(config.baseUrl + '');
-=======
   Rol.findOne({nombre: "supervisor"}, function(err, rol){
     if(err) {
       return res.send(err);
@@ -67,14 +51,13 @@ router.post('/signup', function (req, res) {
       password: req.body.password,
       email: req.body.email,
       telefono: req.body.telefono,
-      rol: rol._id   
+      rol: rol._id
     });
     User.create(user, function (err, user) {
       if(err)
         res.send(err);
         res.redirect(config.baseUrl + 'signup');
-      
->>>>>>> a262bf41d38066e842f2ed30a9d1122ca9560436
+
     });
   });
 });
@@ -116,8 +99,8 @@ router.get('/logout', function (req, res) {
 // SSO
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
 
-router.get('/auth/google/callback', passport.authenticate('google', { 
-  failureRedirect: '/login' 
+router.get('/auth/google/callback', passport.authenticate('google', {
+  failureRedirect: '/login'
 }), function (req, res) {
   console.log('GOOGLE AUTH SUCCESSFUL!');
   //console.log(req);
