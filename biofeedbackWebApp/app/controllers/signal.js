@@ -42,7 +42,7 @@ router.post('/save', function (req, res) {
                             console.log(body);
                             if(body != "Error"){
                                 request.post(
-                                    'http://localhost:5000/supervisor/cambiar_estado',
+                                    'http://localhost:3000/supervisor/cambiar_estado',
                                     { json: { conductor: condu._id, estado_afan: body } },
                                     function (err, res, bod) {
                                         if (!err && res.statusCode == 200) {

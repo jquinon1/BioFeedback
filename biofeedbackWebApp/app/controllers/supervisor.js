@@ -38,7 +38,7 @@ router.get('/', function (req, res) {
 
 router.post('/cambiar_estado', function (req, res) {
     console.log(req);
-    Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
+    Conductor.findOne({_id: req.body.conductor}).populate("supervisor").exec(function (err, condu) {
         if (err) {
             return res.send(err);
         } else if (condu == null) {
@@ -50,7 +50,7 @@ router.post('/cambiar_estado', function (req, res) {
               client.messages.create({
                body: 'El estado del conductor '+ condu.nombre +' ha cambiado a afan le recomendamos ponerse en contacto con el: '+condu.telefono,
                from: process.env.TWILIO_PHONE,
-               to: '+573022147255'
+               to: '+57'+condu.supervisor.telefono
               }).then(message => console.log(message.sid)).done();
             }
             condu.estado_afan = true;
