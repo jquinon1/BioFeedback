@@ -5,13 +5,13 @@ import json
 import os
 import numpy as np
 
-path = 'DatasetEntrenamiento/LeaveOneOutCrossValidation/NoAfan'
+path = 'DatasetEntrenamiento/Split50Percent/NoAfan'
 
 arrNoAfan = []
 
 for filename in os.listdir(path):
     # do your stuff
-    with open('DatasetEntrenamiento/LeaveOneOutCrossValidation/NoAfan/' + filename) as json_data:
+    with open('DatasetEntrenamiento/Split50Percent/NoAfan/' + filename) as json_data:
         features = []
         noafan = {}
         d = json.load(json_data)
@@ -26,14 +26,14 @@ for filename in os.listdir(path):
 
 # print(arrNoAfan)
 
-path = 'DatasetEntrenamiento/LeaveOneOutCrossValidation/Afan'
+path = 'DatasetEntrenamiento/Split50Percent/Afan'
 
 afan = {}
 arrAfan = []
 
 for filename in os.listdir(path):
     # do your stuff
-    with open('DatasetEntrenamiento/LeaveOneOutCrossValidation/Afan/' + filename) as json_data:
+    with open('DatasetEntrenamiento/Split50Percent/Afan/' + filename) as json_data:
         features = []
         afan = {}
         d = json.load(json_data)
@@ -104,11 +104,11 @@ def accuracy(request):
     fails = 0
     total = 0
     
-    path = 'DatasetTest/LeaveOneOutCrossValidation/NoAfan'
+    path = 'DatasetTest/Split50Percent/NoAfan'
     
     for filename in os.listdir(path):
         # do your stuff
-        with open('DatasetTest/LeaveOneOutCrossValidation/NoAfan/' + filename) as json_data:
+        with open('DatasetTest/Split50Percent/NoAfan/' + filename) as json_data:
             total = total + 1
             d = json.load(json_data)
             
@@ -117,16 +117,18 @@ def accuracy(request):
             meanRRinter = d['mean_RR']
 
             predict = clf.predict([[averageHR, meanSSinter, meanRRinter]])
+            print("Archivo de no afan " + str(predict))
+            print(d)
 
             if predict == [1]:
                 asserts = asserts + 1
             else:
                 fails = fails + 1
 
-    path = 'DatasetTest/LeaveOneOutCrossValidation/Afan'
+    path = 'DatasetTest/Split50Percent/Afan'
     for filename in os.listdir(path):
         # do your stuff
-        with open('DatasetTest/LeaveOneOutCrossValidation/Afan/' + filename) as json_data:
+        with open('DatasetTest/Split50Percent/Afan/' + filename) as json_data:
             total = total + 1
             d = json.load(json_data)
             
@@ -135,6 +137,8 @@ def accuracy(request):
             meanRRinter = d['mean_RR']
 
             predict = clf.predict([[averageHR, meanSSinter, meanRRinter]])
+            print("Archivo de afan " + str(predict))
+            print(d)
 
             if predict == [2]:
                 asserts = asserts + 1
