@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var EstadoSchema = new Schema({
     estado: Boolean,
-    conductor: { type: Schema.Types.ObjectId, ref: 'User' }
+    conductor: { type: Schema.Types.ObjectId, ref: 'Conductor' }
 });
 
 EstadoSchema.virtual('date')

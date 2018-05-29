@@ -51,13 +51,13 @@
         var chart = new CanvasJS.Chart("chartContainer", {
             zoomEnabled: true,
             title: {
-                text: "Share Value of Two Companies"
+                text: "Historial de afan"
             },
             axisX: {
-                title: "chart updates every 3 secs"
+                title: "Fecha y Hora"
             },
             axisY:{
-                prefix: "$",
+                prefix: "ECG",
                 includeZero: false
             },
             toolTip: {
@@ -73,10 +73,10 @@
             data: [{
                 type: "line",
                 xValueType: "dateTime",
-                yValueFormatString: "$####.00",
+                yValueFormatString: "####.00",
                 xValueFormatString: "D/M/Y - h:mm: TT",
                 showInLegend: true,
-                name: "Company A",
+                name: "Señal ECG",
                 dataPoints: dataPoints1
             },
                 {
@@ -84,7 +84,7 @@
                     xValueType: "dateTime",
                     yValueFormatString: "$####.00",
                     showInLegend: true,
-                    name: "Company B" ,
+                    name: "Estado de afan" ,
                     dataPoints: dataPoints2
                 }]
         });
