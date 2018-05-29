@@ -29,7 +29,7 @@ router.get('/', function (req, res, next) {
         userInfo = {
           name: req.user.name,
           username: req.user.username,
-        }
+        };
       }
 
       res.render('videos', {
@@ -114,7 +114,7 @@ router.get('/me', function (req, res, next) {
   userInfo = {
     name: req.user.name,
     username: req.user.username,
-  }
+  };
   Video.find({ owner: req.user._id}, function (err, videos) {
     if (err) res.send(err);
     res.render('myvideos', {
@@ -132,7 +132,7 @@ router.get('/me/share', function (req, res) {
     .populate('users')
     .exec(function (err, video) {
       if(err)
-        res.send(err)
+        res.send(err);
       res.render('share', {
         title: "Share",
         video: video,
@@ -199,7 +199,7 @@ router.get('/edit', function (req, res, next){
     .populate('users')
     .exec(function (err, video) {
       if(err)
-        res.send(err)
+        res.send(err);
       console.log("Users population: " + video);
       res.render('edit-video', {
         title: "Edit Video",
@@ -222,7 +222,7 @@ router.post('/edit', function (req, res, next) {
 
   Video.findByIdAndUpdate(req.body.idVideo, { $set: videoUpdated}, { new: true }, function (err, video) {
     if (err) res.send(err);
-    res.redirect(config.baseUrl + 'videos/me')
+    res.redirect(config.baseUrl + 'videos/me');
   });
 });
 

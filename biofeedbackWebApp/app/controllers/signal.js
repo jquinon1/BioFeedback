@@ -14,7 +14,6 @@ module.exports = function (app) {
 heartRateValues = [];
 
 router.post('/save', function (req, res) {
-
     Conductor.findOne({_id: req.body.conductor}, function (err, condu) {
         if (err) {
             return res.send(err);

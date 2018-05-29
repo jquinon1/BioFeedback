@@ -5,7 +5,6 @@ var mongoose = require('mongoose'),
 
 var RolSchema = new Schema({
   nombre: String
-
 });
 
 RolSchema.virtual('date')
