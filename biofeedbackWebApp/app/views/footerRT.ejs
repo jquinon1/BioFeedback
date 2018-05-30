@@ -46,8 +46,9 @@
 
 <script>
     var map;
-
+    var marker;
     function myMap() {
+      var marker;
       var lulu = {lat:  6.198536, lng:  -75.577793};
       map = new google.maps.Map(document.getElementById('map'), {
         center: lulu,
@@ -70,8 +71,6 @@
     }
 
     function addMarker(data){
-      console.log("MARKERRRRRRRRRRRRRRRRRRRRRRRRR");
-      console.log(map);
       var pos = {lat: Number(data.lat), lng: Number(data.log)};
 
       var contentString = '<div id="content">'+
@@ -83,16 +82,22 @@
        var infowindow = new google.maps.InfoWindow({
          content: contentString
        });
+       if(marker instanceof google.maps.Marker){
+         console.log("EEEE");
+         // marker.setMap(null);
+         marker.setPosition(pos);
 
-       var marker = new google.maps.Marker({
-         position: pos,
-         map: map,
-         title: data.conductor.nombre
-       });
+       }else {
+         console.log("HERERERERERERERERERERERERERERERERERERERERERERERERER");
+         marker = new google.maps.Marker({
+           position: pos,
+           map: map,
+           title: data.conductor.nombre
+         });
+       }
        marker.addListener('click', function() {
          infowindow.open(map, marker);
        });
-
     }
 
     function waitForPos(id_cond){
@@ -110,15 +115,15 @@
           success: function(data){ /* called when request to barge.php completes */
               addMarker(data); /* Add response to a .msg div (with the "new" class)*/
               setTimeout(
-                  waitForPos, /* Request next message */
-                  15000, /* ..after 1 seconds */
+                  waitForPos(id_cond), /* Request next message */
+                  5000, /* ..after 15 seconds */
                   id_cond
               );
           },
           error: function(XMLHttpRequest, textStatus, errorThrown){
               addmsg("error", textStatus + " (" + errorThrown + ")");
               setTimeout(
-                  waitForMsg(id_cond), /* Try again after.. */
+                  waitForPos(id_cond), /* Try again after.. */
                   15000, /* milliseconds (15seconds) */
                   id_cond
               );
@@ -143,7 +148,7 @@
                 addmsg(id_cond, data); /* Add response to a .msg div (with the "new" class)*/
                 setTimeout(
                     waitForMsg, /* Request next message */
-                    1000, /* ..after 1 seconds */
+                    5000, /* ..after 1 seconds */
                     id_cond
                 );
             },
