@@ -22,7 +22,7 @@ router.post('/save', function (req, res) {
         }
         console.log(condu.senales_recibidas);
         if (condu.senales_recibidas >= 10){
-
+            
             Senal.find({conductor: condu._id}).sort({_id: -1}).limit(10).exec(function (err, sen) {
                 if (err) return res.send(err);
                 console.log("señales sorted: " + sen);
@@ -70,7 +70,9 @@ router.post('/save', function (req, res) {
             signal = new Senal({
                 ecg: req.body.ecg,
                 tiempo: req.body.tiempo,
-                conductor: condu._id
+                conductor: condu._id,
+                lat: req.body.lat,
+                log: req.body.log
             });
 
             Senal.create(signal, function (err, sigObj) {

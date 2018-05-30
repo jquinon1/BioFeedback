@@ -4,6 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Conductor = mongoose.model('Conductor'),
     Estado = mongoose.model('Estado'),
+    DatosSenal = mongoose.model('DatosSenal'),
     User = mongoose.model('User');
 
 require('dotenv').config();
@@ -106,6 +107,16 @@ router.get('/estado_conductor/:id', function (req, res) {
             return res.status(200).end(condu.estado_afan.toString());
     });
 
+});
+
+router.get('/position_conductor/:id', function (req,res){
+  if(!req.user){
+      return res.redirect("/login?error=true");
+  }
+  DatosSenal.findOne({conductor: req.params.id}).sort({_id: -1}).populate("conductor").exec(function(err,senal){
+    if (err) return res.send(err);
+    return res.status(200).json(senal);
+  });
 });
 
 router.get('/test', function (req, res) {

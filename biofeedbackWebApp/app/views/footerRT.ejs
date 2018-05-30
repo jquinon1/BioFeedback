@@ -22,10 +22,10 @@
 <!-- Bootstrap tether Core JavaScript -->
 <script src="<%- baseUrl %>assets/plugins/bootstrap/js/tether.min.js"></script>
 <script src="<%- baseUrl %>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<!-- slimscrollbar scrollbar JavaScript -->
 <script src="<%- baseUrl %>js/jquery.slimscroll.js"></script>
-<!--Wave Effects -->
+<!-- slimscrollbar scrollbar JavaScript -->
 <script src="<%- baseUrl %>js/waves.js"></script>
+<!--Wave Effects -->
 <!--Menu sidebar -->
 <script src="<%- baseUrl %>js/sidebarmenu.js"></script>
 <!--stickey kit -->
@@ -44,7 +44,19 @@
 <!-- ============================================================== -->
 <script src="<%- baseUrl %>assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
-<script type="text/javascript" charset="utf-8">
+<script>
+    var map;
+
+    function myMap() {
+      var lulu = {lat:  6.198536, lng:  -75.577793};
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: lulu,
+        zoom: 16,
+      });
+      // var infoWindow = new google.maps.InfoWindow({map: map});
+      // var marker = new google.maps.Marker({position: lulu, map: map});
+    }
+
     function addmsg(id_cond, msg){
         /* Simple helper to add a div.
         type is the name of a CSS class (old/new/error).
@@ -56,6 +68,63 @@
         }
 
     }
+
+    function addMarker(data){
+      console.log("MARKERRRRRRRRRRRRRRRRRRRRRRRRR");
+      console.log(map);
+      var pos = {lat: Number(data.lat), lng: Number(data.log)};
+
+      var contentString = '<div id="content">'+
+           '<div id="siteNotice">'+
+           '</div>'+
+           '<h1 id="firstHeading" class="firstHeading">'+data.conductor.nombre+' - '+data.conductor.telefono+'</h1>'+
+           '</div>';
+
+       var infowindow = new google.maps.InfoWindow({
+         content: contentString
+       });
+
+       var marker = new google.maps.Marker({
+         position: pos,
+         map: map,
+         title: data.conductor.nombre
+       });
+       marker.addListener('click', function() {
+         infowindow.open(map, marker);
+       });
+
+    }
+
+    function waitForPos(id_cond){
+      /* This requests the url "msgsrv.php"
+      When it complete (or errors)*/
+      endpoint = "/supervisor/position_conductor/" + id_cond;
+      $.ajax({
+          type: "GET",
+          url: endpoint,
+
+          async: true, /* If set to non-async, browser shows page as "Loading.."*/
+          cache: false,
+          timeout:50000, /* Timeout in ms */
+
+          success: function(data){ /* called when request to barge.php completes */
+              addMarker(data); /* Add response to a .msg div (with the "new" class)*/
+              setTimeout(
+                  waitForPos, /* Request next message */
+                  15000, /* ..after 1 seconds */
+                  id_cond
+              );
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown){
+              addmsg("error", textStatus + " (" + errorThrown + ")");
+              setTimeout(
+                  waitForMsg(id_cond), /* Try again after.. */
+                  15000, /* milliseconds (15seconds) */
+                  id_cond
+              );
+          }
+      });
+    };
 
     function waitForMsg(id_cond){
 
@@ -94,10 +163,11 @@
         $(".online").each(function(i,item){
             id_con = $(this).attr('id');
             waitForMsg(id_con);
+            waitForPos(id_con);
         });
     });
 </script>
-
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMjHU8dYQVKESRXjujZ0LXYz8QrYgUg4g&callback=myMap"></script>
 </body>
 
 </html>
