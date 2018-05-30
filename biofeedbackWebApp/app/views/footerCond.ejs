@@ -53,6 +53,14 @@
             title: {
                 text: "Historial de afan"
             },
+            subtitles:[
+                {
+                    text: "..."
+                    //Uncomment properties below to see how they behave
+                    //fontColor: "red",
+                    //fontSize: 30
+                }
+            ],
             axisX: {
                 title: "Tiempo",
                 valueFormatString: "D/M/Y - h:mm:ss:fff TT",
@@ -135,20 +143,15 @@
             console.log(dataPoints1);
             // updating legend text with  updated with y Value
             chart.options.data[0].dataPoints = dataPoints1;
-            chart.options.data[0].legendText = " ECG";
             chart.render();
         }
 
-        function updateChart2(datos) {
-            console.log(typeof(datos));
-            //var datosJson = JSON.stringify(datos);
-            //console.log(typeof(datosJson));
-            dataPoints1 = datos;
-            //dataPoints2 = datos;
+        function updateChart2(porc) {
+            //console.log(typeof(porc));
 
             // updating legend text with  updated with y Value
-            chart.options.data[0].legendText = " Company A  $" + yValue1;
-            chart.options.data[1].legendText = " Company B  $" + yValue2;
+            chart.options.data[0].legendText = " ECG";
+            chart.options.subtitles[0].text = "Porcentaje de afan (hace 4 minutos): " + porc + "%";
             chart.render();
         }
 
@@ -187,10 +190,42 @@
             });
         };
 
+        function getAfanPorcentaje(id_cond){
+            endpoint = "/signal/porcentaje_afan/" + id_cond;
+            $.ajax({
+                type: "GET",
+                url: endpoint,
+
+                async: true, /* If set to non-async, browser shows page as "Loading.."*/
+                cache: false,
+                timeout:50000, /* Timeout in ms */
+
+                success: function(data){ /* called when request to barge.php completes */
+                    //console.log(data); /* Add response to a .msg div (with the "new" class)*/
+                    updateChart2(data);
+
+                    setTimeout(
+                        getAfanPorcentaje, /* Request next message */
+                        1000, /* ..after 1 seconds */
+                        id_cond
+                    );
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log("error: " + textStatus + " (" + errorThrown + ")");
+                    setTimeout(
+                        getAfanPorcentaje(id_cond), /* Try again after.. */
+                        15000, /* milliseconds (15seconds) */
+                        id_cond
+                    );
+                }
+            });
+        };
+
 // generates first set of dataPoints
         //updateChart(1);
         //setInterval(function(){updateChart()}, updateInterval);
         waitForMsg(idcond);
+        getAfanPorcentaje(idcond);
 
     }
 </script>

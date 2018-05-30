@@ -28,6 +28,37 @@ function getFeature(n, callback) {
     });
 }
 
+router.get('/porcentaje_afan/:id', function(req, res) {
+    Senal.find({conductor: req.params.id}).sort({_id: -1}).limit(12000).exec(function (err, signalData) {
+        if (err){
+            return res.send(err);
+        }else if (signalData == null){
+            return res.end("Id de conductor invalido o no hay señales");
+        }
+        nAfan = 0;
+        nNoAfan = 0;
+        total = 0;
+        for(var i = 0;i < signalData.length;i++){
+            if(signalData[i].afan == true) {
+                nAfan++;
+            }else {
+                nNoAfan++;
+            }
+            total++;
+        }
+        console.log(total);
+        if(total != 0) {
+            porcentaje = nAfan / total;
+            console.log("Afan: " + nAfan + " No afan: " + nNoAfan + " Total: " + total);
+            return res.send(porcentaje.toString());
+        }else {
+            return res.send("0");
+        }
+
+
+    });
+});
+
 router.get('/file', function(req, res) {
     getFeature(1, function(result){
         console.log(result);
