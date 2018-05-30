@@ -84,6 +84,7 @@ def process(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
+        print(body)
 
         if 'heartRate' in body.keys():
             hrate = body['heartRate']
