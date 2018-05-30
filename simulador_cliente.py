@@ -2,7 +2,10 @@ import requests
 import random
 import json
 import time
-
+import sys
+if len(sys.arg) <= 2:
+    print("Debe pasar un id del conductor como argumento")
+    exit()
 with open('DatosECGPersonas/ECGPersona6NoAfan.json') as f:
     data = json.load(f)
 
