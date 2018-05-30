@@ -202,6 +202,11 @@ router.get('/conductor/:id', function (req, res, next) {
     Conductor.findOne({_id: req.params.id},function(err, cond) {
         if (err) return res.send(err);
 
+        fecha = new Date(cond.fecha_nacimiento);
+        fechaActual = new Date();
+
+        cond.edad = fechaActual.getFullYear() - fecha.getFullYear();
+
         console.log("CONDUCTOR: " + cond);
         return res.render('conductor', {
             conductor: cond,
