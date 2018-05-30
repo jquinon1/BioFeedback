@@ -12,6 +12,10 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
+router.get('/', function (req, res, next) {
+    res.redirect('/supervisor');
+});
+
 router.get('/users', function (req, res, next) {
   User.find(function (err, users) {
     if(err) {

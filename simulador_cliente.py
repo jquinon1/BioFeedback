@@ -1,6 +1,7 @@
 import requests
-import time
 import random
+import json
+import time
 from random import randint
 route1 = [("6.2614871","-75.5562689"),("6.26149" ,"-75.55627"),("6.26724", "-75.57452"),("6.29982" ,"-75.56515"),("6.31564" ,"-75.55702"),( "6.3378" ,"-75.55892"),("6.337683", "-75.5589119")]
 route2 = [("6.3365954", "-75.5588036"),("6.3366" ,"-75.5588"),("6.33476", "-75.55604"),("6.33162", "-75.55786"),("6.32711", "-75.55789"),("6.32144", "-75.55743"),("6.31758", "-75.55711"),("6.31402", "-75.55724"),("6.30926", "-75.55997"),("6.30486", "-75.56047"),("6.30289", "-75.56283"),("6.30014", "-75.56496"),("6.29226", "-75.56838"),("6.27897", "-75.57213"),("6.27195", "-75.57359"),("6.26609", "-75.5751"),("6.2653", "-75.57414"),("6.265", "-75.57124"),("6.26444", "-75.56754"),("6.26372", "-75.56247"),("6.26294", "-75.55748"),("6.2614871", "-75.5562689")]
@@ -11,15 +12,23 @@ routes = {0:route1,1:route2,2:route3,3:route4,4:route5}
 selected = randint(0,4)
 length = len(routes[selected])
 cont = 0
-# print(selected)
-# print(routes[selected][0][0])
-#
-while True:
-    val = random.uniform(35.5,82.2)
-    data={"ecg": val, "lat":routes[selected][cont][0],"log":routes[selected][cont][1],"tiempo": 11, "conductor": "5b0df958e16d464bba5ebcbc"}
-    print(data)
-    r = requests.post("http://localhost:3000/signal/save", data)
-    cont = cont+1 if cont < length-1 else 0
+
+with open('DatosECGPersonas/ECGPersona6NoAfan.json') as f:
+    data = json.load(f)
+
+print(len(data['ecg']))
+
+for i in data['ecg']:
+    print(i)
+    r = requests.post("http://localhost:3000/signal/save", data={"ecg": i, "conductor": "5b0e22d5cd245e45df3640c3", "lat":routes[selected][cont][0],"log":routes[selected][cont][1]})
     print(r.status_code, r.reason)
     print(r.text)
-    time.sleep(1)
+    cont = cont+1 if cont < length-1 else 0
+    time.sleep(0.02)
+
+'''while True:
+    val = random.uniform(35.5,82.2)
+    r = requests.post("http://localhost:3000/signal/save", data={"ecg": val, "tiempo": 11, "conductor": "5b0dd4b2761968111fb446cd"})
+    print(r.status_code, r.reason)
+    print(r.text)
+    time.sleep(0.02)'''

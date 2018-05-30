@@ -62,7 +62,8 @@
         /* Simple helper to add a div.
         type is the name of a CSS class (old/new/error).
         msg is the contents of the div */
-        if(msg == "true"){
+        console.log(msg);
+        if(msg == true){
             $("#" + id_cond).css({"color": "red"});
         }else {
             $("#" + id_cond).css({"color": "green"});

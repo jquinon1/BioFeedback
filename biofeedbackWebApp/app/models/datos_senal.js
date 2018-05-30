@@ -3,9 +3,10 @@ var mongoose = require('mongoose'),
 
 var DatosSenalSchema = new Schema({
     ecg: Number,
-    tiempo: Number,
     lat: String,
     log: String,
+    fecha: { type: Date, default: Date.now },
+    afan: Boolean,
     conductor: { type: Schema.Types.ObjectId, ref: 'Conductor' }
 });
 

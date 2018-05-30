@@ -51,13 +51,16 @@
         var chart = new CanvasJS.Chart("chartContainer", {
             zoomEnabled: true,
             title: {
-                text: "Share Value of Two Companies"
+                text: "Historial de afan"
             },
             axisX: {
-                title: "chart updates every 3 secs"
+                title: "Tiempo",
+                valueFormatString: "D/M/Y - h:mm:ss:fff TT",
+                interval: 1,
+                intervalType: "milliseconds"
             },
             axisY:{
-                prefix: "$",
+                prefix: "mV ",
                 includeZero: false
             },
             toolTip: {
@@ -73,10 +76,10 @@
             data: [{
                 type: "line",
                 xValueType: "dateTime",
-                yValueFormatString: "$####.00",
-                xValueFormatString: "D/M/Y - h:mm: TT",
+                yValueFormatString: "####.00",
+                xValueFormatString: "D/M/Y - h:mm:ss:fff TT",
                 showInLegend: true,
-                name: "Company A",
+                name: "Señal ECG",
                 dataPoints: dataPoints1
             },
                 {
@@ -84,7 +87,7 @@
                     xValueType: "dateTime",
                     yValueFormatString: "$####.00",
                     showInLegend: true,
-                    name: "Company B" ,
+                    name: "Estado de afan" ,
                     dataPoints: dataPoints2
                 }]
         });
@@ -114,12 +117,19 @@
                 // adding random value and rounding it to two digits.
                 yValue1 = Math.round((yValue1 + deltaY1)*100)/100;
 
+                if(datos[i].afan == true) {
+                    color = "red";
+                }else {
+                    color = "blue"
+                }
 
                 fecha = new Date(datos[i].x);
+
                 // pushing the new values
                 dataPoints1.push({
                     x: fecha.getTime(),
-                    y: datos[i].y
+                    y: datos[i].y,
+                    lineColor: color
                 });
             }
             console.log(dataPoints1);

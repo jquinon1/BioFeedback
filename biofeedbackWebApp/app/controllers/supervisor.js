@@ -4,8 +4,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Conductor = mongoose.model('Conductor'),
     Estado = mongoose.model('Estado'),
-    DatosSenal = mongoose.model('DatosSenal'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    Senal = mongoose.model('DatosSenal');
 
 require('dotenv').config();
 
@@ -35,6 +35,26 @@ router.get('/', function (req, res) {
                 conductores: conductorData
             });
         });
+});
+
+
+
+router.get('/delete/:id', function(req, res) {
+
+    Conductor.deleteOne({_id: req.params.id}, function(err){
+        if (err) {
+            return res.send(err);
+        }
+
+        Senal.deleteMany({conductor: req.params.id}, function(err) {
+            if (err) {
+                return res.send(err);
+            }
+
+            return res.redirect("/supervisor/perfil");
+        });
+
+    });
 });
 
 router.post('/cambiar_estado', function (req, res) {
@@ -113,7 +133,7 @@ router.get('/position_conductor/:id', function (req,res){
   if(!req.user){
       return res.redirect("/login?error=true");
   }
-  DatosSenal.findOne({conductor: req.params.id}).sort({_id: -1}).populate("conductor").exec(function(err,senal){
+  Senal.findOne({conductor: req.params.id}).sort({_id: -1}).populate("conductor").exec(function(err,senal){
     if (err) return res.send(err);
     return res.status(200).json(senal);
   });
@@ -191,6 +211,11 @@ router.get('/conductor/:id', function (req, res, next) {
     }
     Conductor.findOne({_id: req.params.id},function(err, cond) {
         if (err) return res.send(err);
+
+        fecha = new Date(cond.fecha_nacimiento);
+        fechaActual = new Date();
+
+        cond.edad = fechaActual.getFullYear() - fecha.getFullYear();
 
         console.log("CONDUCTOR: " + cond);
         return res.render('conductor', {
