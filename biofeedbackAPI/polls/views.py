@@ -85,10 +85,13 @@ def process(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
-        if 'HeartRate' in body.keys():
-            hrate = body['HeartRate']
+        if 'heartRate' in body.keys():
+            hrate = body['heartRate']
+            interRR = body['intervalRR']
+            interSS = body['intervalSS']
             print(body)
-            pred = clf.predict([[float(hrate)]])
+            pred = clf.predict([[float(hrate), float(interRR), float(interSS)]])
+            print("Prediction " + str(pred))
             if pred == [1]:
                 return HttpResponse("false")
             elif pred == [2]:
@@ -96,7 +99,7 @@ def process(request):
         else:
             print ("Error")
 
-        return HttpResponse("Error")
+        return HttpResponse("Error ")
     return HttpResponse("Not available")
 
 def accuracy(request):

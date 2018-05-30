@@ -8,7 +8,7 @@ var ConductorSchema = new Schema({
     apellidos: String,
     fecha_nacimiento: Date,
     telefono: String,
-    estado_afan: Boolean,
+    estado_afan: { type: Number, default: false },
     senales_recibidas: { type: Number, default: 0 },
     supervisor: { type: Schema.Types.ObjectId, ref: 'User' }
     // users: [{ type: Schema.Types.ObjectId, ref: 'User' }]

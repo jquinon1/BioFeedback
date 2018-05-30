@@ -54,7 +54,10 @@
                 text: "Historial de afan"
             },
             axisX: {
-                title: "Fecha y Hora"
+                title: "Fecha y Hora",
+                valueFormatString: "D/M/Y - h:mm:ss:fff TT",
+                interval: 1,
+                intervalType: "milliseconds"
             },
             axisY:{
                 prefix: "ECG",
@@ -74,7 +77,7 @@
                 type: "line",
                 xValueType: "dateTime",
                 yValueFormatString: "####.00",
-                xValueFormatString: "D/M/Y - h:mm: TT",
+                xValueFormatString: "D/M/Y - h:mm:ss:fff TT",
                 showInLegend: true,
                 name: "Señal ECG",
                 dataPoints: dataPoints1
@@ -116,6 +119,7 @@
 
 
                 fecha = new Date(datos[i].x);
+
                 // pushing the new values
                 dataPoints1.push({
                     x: fecha.getTime(),

@@ -1,14 +1,23 @@
 import requests
-import time
 import random
+import json
+import time
 
-while True:
-    val = random.uniform(35.5,82.2)
-<<<<<<< HEAD
-    r = requests.post("http://localhost:3000/signal/save", data={"ecg": val, "tiempo": 11, "conductor": "5b059330f64cf70cc4eb3498"})
-=======
-    r = requests.post("http://pi2biofeedback.dis.eafit.edu.co/signal/save", data={"ecg": val, "tiempo": 11, "conductor": "5b03383d3c02fb156bad57f2"})
->>>>>>> 3703649435e2e01e3326d4203ece51e08d5ad598
+with open('DatosECGPersonas/ECGPersona6NoAfan.json') as f:
+    data = json.load(f)
+
+print(len(data['ecg']))
+
+for i in data['ecg']:
+    print(i)
+    r = requests.post("http://localhost:3000/signal/save", data={"ecg": i, "conductor": "5b0dd4b2761968111fb446cd"})
     print(r.status_code, r.reason)
     print(r.text)
-    time.sleep(1)
+    time.sleep(0.02)
+
+'''while True:
+    val = random.uniform(35.5,82.2)
+    r = requests.post("http://localhost:3000/signal/save", data={"ecg": val, "tiempo": 11, "conductor": "5b0dd4b2761968111fb446cd"})
+    print(r.status_code, r.reason)
+    print(r.text)
+    time.sleep(0.02)'''

@@ -21,13 +21,14 @@ router.post('/save', function (req, res) {
             return res.end("Id de conductor invalido");
         }
         console.log(condu.senales_recibidas);
-        if (condu.senales_recibidas >= 10){
+        if (condu.senales_recibidas >= 300){
 
-            Senal.find({conductor: condu._id}).sort({_id: -1}).limit(10).exec(function (err, sen) {
+            Senal.find({conductor: condu._id}).sort({_id: -1}).limit(300).exec(function (err, sen) {
                 if (err) return res.send(err);
                 console.log("señales sorted: " + sen);
 
-                rand = (Math.random()*(89 - 77) + 77);
+                //rand = (Math.random()*(89 - 77) + 77);
+                rand = Math.random();
 
                 //body = {
                 //    "HeartRate": rand
@@ -36,7 +37,7 @@ router.post('/save', function (req, res) {
 
                 request.post(
                     'http://localhost:8000/signal/',
-                    { json: { HeartRate: rand } },
+                    { json: { heartRate: rand, intervalRR: 0.3, intervalSS: 0.2, } },
                     function (error, response, body) {
                         if (!error && response.statusCode == 200) {
                             console.log(body);
@@ -69,7 +70,7 @@ router.post('/save', function (req, res) {
         }else {
             signal = new Senal({
                 ecg: req.body.ecg,
-                tiempo: req.body.tiempo,
+                afan: condu.estado_afan,
                 conductor: condu._id
             });
 
@@ -110,7 +111,7 @@ router.get('/active', function (req, res, next) {
 });
 
 router.get('/get/:user', function (req, res, next) {
-    Senal.find({conductor: req.params.user}, function (err, signalData) {
+    Senal.find({conductor: req.params.user}).sort({_id: -1}).limit(500).exec(function (err, signalData) {
         if (err){
             return res.send(err);
         }else if (signalData == null){
@@ -121,7 +122,7 @@ router.get('/get/:user', function (req, res, next) {
 
         for(var i = 0;i < signalData.length;i++){
             data.push({
-                x: signalData[i].date,
+                x: signalData[i].fecha,
                 y: signalData[i].ecg
             });
         }
