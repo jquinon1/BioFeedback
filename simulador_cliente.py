@@ -18,6 +18,7 @@ routes = {0:route1,1:route2,2:route3,3:route4,4:route5}
 selected = randint(0,4)
 length = len(routes[selected])
 cont = 0
+other = 0
 
 with open('DatosECGPersonas/ECGPersona6NoAfan.json') as f:
     data = json.load(f)
@@ -26,10 +27,15 @@ print(len(data['ecg']))
 
 for i in data['ecg']:
     print(i)
-    r = requests.post("http://pi2biofeedback.dis.eafit.edu.co//signal/save", data={"ecg": i, "conductor": sys.argv[1], "lat":routes[selected][cont][0],"log":routes[selected][cont][1]})
+    r = requests.post("http://pi2biofeedback.dis.eafit.edu.co/signal/save", data={"ecg": i, "conductor": sys.argv[1], "lat":routes[selected][cont][0],"log":routes[selected][cont][1]})
+    if other > 100:
+   	cont = cont+1 if cont < length-1 else 0
+	other = 0
+    else:
+	other+=1
     print(r.status_code, r.reason)
     print(r.text)
-    cont = cont+1 if cont < length-1 else 0
+
     time.sleep(0.02)
 
 '''while True:
