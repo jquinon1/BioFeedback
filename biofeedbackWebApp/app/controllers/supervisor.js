@@ -4,7 +4,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Conductor = mongoose.model('Conductor'),
     Estado = mongoose.model('Estado'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    Senal = mongoose.model('DatosSenal');
 
 require('dotenv').config();
 
@@ -34,6 +35,26 @@ router.get('/', function (req, res) {
                 conductores: conductorData
             });
         });
+});
+
+
+
+router.get('/delete/:id', function(req, res) {
+
+    Conductor.deleteOne({_id: req.params.id}, function(err){
+        if (err) {
+            return res.send(err);
+        }
+
+        Senal.deleteMany({conductor: req.params.id}, function(err) {
+            if (err) {
+                return res.send(err);
+            }
+
+            return res.redirect("/supervisor/perfil");
+        });
+
+    });
 });
 
 router.post('/cambiar_estado', function (req, res) {

@@ -44,7 +44,7 @@ router.get('/reset/:id', function(req, res) {
 
         Conductor.updateOne({_id: req.params.id}, {estado_afan: false, index_feature: 0, senales_recibidas: 0}, function(err, result){
             console.log(result);
-            return res.end("ok");
+            return res.redirect("/supervisor");
         });
 
     });
